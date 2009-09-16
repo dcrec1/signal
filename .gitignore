@@ -5,3 +5,4 @@ db/*.sqlite3
 coverage
 solr
 public/system
+public/projects
