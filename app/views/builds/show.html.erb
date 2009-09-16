@@ -1,0 +1,18 @@
+<p>
+  <b>Project:</b>
+  <%=h @build.project %>
+</p>
+
+<p>
+  <b>Log:</b>
+  <%=h @build.log %>
+</p>
+
+<p>
+  <b>Success:</b>
+  <%=h @build.success %>
+</p>
+
+
+<%= link_to 'Edit', edit_build_path(@build) %> |
+<%= link_to 'Back', builds_path %>
