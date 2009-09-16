@@ -1,0 +1,9 @@
+--- 
+javascripts: 
+- base: 
+  - jquery-ui
+  - jrails
+  - jquery
+stylesheets: 
+- base: []
+

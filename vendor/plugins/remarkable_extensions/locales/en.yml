@@ -1,0 +1,18 @@
+en:
+  remarkable:
+    action_controller:
+      have_filter:
+        after: after
+        before: before
+        description: "{{human_name}} {{macro}}"
+        expectations:
+          has_filter: "controller to have {{macro}} filter {{name}}"
+          "on": "controller to have {{macro}} filter {{name}} on action {{action}}, got only on {{actual}}"
+          except: "controller to have {{macro}} filter {{name}} on action {{action}}, got all except {{actual}}"
+        optionals:
+          "on":
+            positive: "{{sentence}} actions"
+      have_actions:
+        description: "respond to {{actions}}"
+        expectations:
+          has_action: "controller to respond to {{action}}"

@@ -1,0 +1,7 @@
+en:
+  remarkable:
+    inherited_resources: 
+      have_a_name: 
+        description: "should have a name"
+        expectations: 
+          has_a_name: "{{subject_name}} should have a name {{attribute}}"
