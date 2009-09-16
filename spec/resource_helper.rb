@@ -24,6 +24,8 @@ def should_behave_like_resource(opts = {})
     @mock ||= mock_model(clazz, stubs)
     @mock.stub!(:to_json).and_return("{'a' => 'b'}")
     @mock.stub!(:to_xml).and_return("<a>b</a>")
+    invalid = (stubs[:update_attributes] == false || stubs[:save] == false)
+    @mock.stub!(:errors).and_return(invalid ? [mock(Object)] : [])
     @mock
   end
 
@@ -82,11 +84,11 @@ def should_behave_like_resource(opts = {})
     collection.stub!(:build).and_return(collection.first)
     collection
   end
-  
+
   def param
     @opts[:param]
   end
-  
+
   def param_finder
     param.nil? ? :find :"find_by_#{param}"
   end
@@ -239,7 +241,8 @@ def should_behave_like_resource(opts = {})
       end if formats_include_html(opts)
 
       it "re-renders the 'edit' template" do
-        clazz.stub!(:find).and_return(mocked_model(:update_attributes => false))
+        clazz.stub!(:find).and_return(mock = mocked_model(:update_attributes => false))
+        mock.should_receive(:errors).and_return([1])
         put :update, {:id => mocked_model_id}.merge(parameters)
         response.should render_template('edit')
       end if formats_include_html(opts)

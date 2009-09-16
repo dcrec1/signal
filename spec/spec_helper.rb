@@ -42,6 +42,8 @@ Spec::Runner.configure do |config|
   # config.mock_with :rr
   #
   # == Notes
-  # 
+  #
   # For more information take a look at Spec::Runner::Configuration and Spec::Runner
 end
+
+require File.expand_path(File.dirname(__FILE__) + '/resource_helper')
