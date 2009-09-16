@@ -6,4 +6,8 @@ class Project < ActiveRecord::Base
   def after_create
     Kernel.system "cd #{BASE_PATH} && git clone #{url} #{name}"
   end
+
+  def path
+    "#{BASE_PATH}/#{name}"
+  end
 end
