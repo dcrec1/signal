@@ -1,5 +1,3 @@
 .projects
   - for project in @projects do
-    .project{:class => project.status}
-      .name= project.name
-      .date= project.created_at
+    = link_to render(:partial => "shared/project", :locals => {:project => project}), project_path(project)
