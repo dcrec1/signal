@@ -6,3 +6,4 @@ coverage
 solr
 public/system
 public/projects
+config/mailer.yml
