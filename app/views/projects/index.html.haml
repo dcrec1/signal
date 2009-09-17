@@ -1,3 +1,5 @@
 .projects
   - for project in @projects do
     = link_to render(:partial => "shared/project", :locals => {:project => project}), project_path(project)
+
+= link_to I18n.t(:new_project), new_project_path
