@@ -17,8 +17,8 @@ describe Build do
       Build.create! :project => @project
     end
 
-    it "should build the project" do
-      Kernel.should_receive(:system).with("cd #{@project.path} && rake build >> #{@log_path}")
+    it "should build the project with the test environment" do
+      Kernel.should_receive(:system).with("cd #{@project.path} && rake build RAILS_ENV=test >> #{@log_path}")
       Build.create! :project => @project
     end
 
