@@ -2,6 +2,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe Project do
   should_validate_presence_of :name, :url, :email
+  should_have_many :builds
 
   it "should have public/projects as the projects base path" do
     Project::BASE_PATH.should eql("#{RAILS_ROOT}/public/projects")
@@ -16,5 +17,21 @@ describe Project do
     project = Project.new :name => "social", :url => "git://social", :email => "fake@mouseoverstudio.com"
     Kernel.should_receive(:system).with("cd #{Project::BASE_PATH} && git clone #{project.url} #{project.name}")
     project.save
+  end
+
+  context "when returing the status" do
+    before :each do
+      @project = Project.new :builds => [@build = Build.new]
+    end
+
+    it "should return #{Project::SUCCESS} when the last build was successful" do
+      @build.stub!(:successful).and_return(true)
+      @project.status.should eql(Project::SUCCESS)
+    end
+
+    it "should return #{Project::FAIL} when the last build was not successful" do
+      @build.stub!(:successful).and_return(false)
+      @project.status.should eql(Project::FAIL)
+    end
   end
 end

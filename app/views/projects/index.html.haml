@@ -1,0 +1,4 @@
+.projects
+  - for project in @projects do
+    .project{:class => project.status}
+      .name= project.name
