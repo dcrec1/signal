@@ -7,3 +7,5 @@
     - build = @project.builds.last
     .successful= build.successful
     .log= build.log.gsub("\n", "<br>")
+
+= link_to 'metrics', metrics_path(@project)
