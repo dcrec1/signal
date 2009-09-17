@@ -32,5 +32,19 @@ describe Build do
       Kernel.stub!(:system).and_return(false)
       Build.create!(:project => @project).success.should be_false
     end
+
+    it "should not deliver an email when build don't fail" do
+      Kernel.stub!(:system).and_return(true)
+      build = Build.new :project => @project
+      Notifier.should_not_receive(:deliver_fail_notification).with(build)
+      build.save
+    end
+
+    it "should deliver an emails if build fails" do
+      Kernel.stub!(:system).and_return(false)
+      build = Build.new :project => @project
+      Notifier.should_receive(:deliver_fail_notification).with(build)
+      build.save
+    end
   end
 end
