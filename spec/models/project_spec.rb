@@ -24,14 +24,14 @@ describe Project do
       @project = Project.new :builds => [@build = Build.new]
     end
 
-    it "should return #{Project::SUCCESS} when the last build was successful" do
-      @build.stub!(:successful).and_return(true)
-      @project.status.should eql(Project::SUCCESS)
+    it "should return #{Build::SUCCESS} when the last build was successful" do
+      @build.success = true
+      @project.status.should eql(Build::SUCCESS)
     end
 
-    it "should return #{Project::FAIL} when the last build was not successful" do
-      @build.stub!(:successful).and_return(false)
-      @project.status.should eql(Project::FAIL)
+    it "should return #{Build::FAIL} when the last build was not successful" do
+      @build.success = false
+      @project.status.should eql(Build::FAIL)
     end
 
     it "should return an empty string when there are no builds" do

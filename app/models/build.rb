@@ -1,9 +1,16 @@
 class Build < ActiveRecord::Base
+  SUCCESS   = "success"
+  FAIL      = "failure"
+
   belongs_to :project
-  validates_presence_of :project, :log
+  validates_presence_of :project, :output
 
   def before_validation_on_create
-    self.successful, self.log = build project unless project.nil?
+    self.success, self.output = build project unless project.nil?
+  end
+
+  def status
+    success ? SUCCESS : FAIL
   end
 
   private

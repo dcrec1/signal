@@ -9,12 +9,12 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090916223235) do
+ActiveRecord::Schema.define(:version => 20090917151232) do
 
   create_table "builds", :force => true do |t|
     t.integer  "project_id"
-    t.text     "log"
-    t.boolean  "successful"
+    t.text     "output"
+    t.boolean  "success"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

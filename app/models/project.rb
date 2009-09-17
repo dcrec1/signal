@@ -1,7 +1,5 @@
 class Project < ActiveRecord::Base
   BASE_PATH = "#{RAILS_ROOT}/public/projects"
-  SUCCESS   = "success"
-  FAIL      = "failure"
 
   validates_presence_of :name, :url, :email
   has_many :builds
@@ -16,6 +14,6 @@ class Project < ActiveRecord::Base
 
   def status
     return '' if builds.empty?
-    builds.last.successful ? SUCCESS : FAIL
+    builds.last.status
   end
 end

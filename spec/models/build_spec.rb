@@ -2,7 +2,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe Build do
   should_belong_to :project
-  should_validate_presence_of :project, :log
+  should_validate_presence_of :project, :output
 
   context "on creation" do
     before :each do
@@ -25,12 +25,12 @@ describe Build do
     it "should save the log" do
       log = "Can't touch this!"
       File.stub!(:open).with(@log_path).and_return(mock(Object, :read => log))
-      Build.create!(:project => @project).log.should eql(log)
+      Build.create!(:project => @project).output.should eql(log)
     end
 
     it "should determine if the build was a success or not" do
       Kernel.stub!(:system).and_return(false)
-      Build.create!(:project => @project).successful.should be_false
+      Build.create!(:project => @project).success.should be_false
     end
   end
 end
