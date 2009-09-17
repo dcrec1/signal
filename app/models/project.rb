@@ -15,6 +15,7 @@ class Project < ActiveRecord::Base
   end
 
   def status
+    return '' if builds.empty?
     builds.last.successful ? SUCCESS : FAIL
   end
 end

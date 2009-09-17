@@ -9,3 +9,4 @@ stylesheets:
   - formtastic
   - formtastic_changes
   - scaffold
+  - application

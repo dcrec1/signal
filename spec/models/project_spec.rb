@@ -33,5 +33,10 @@ describe Project do
       @build.stub!(:successful).and_return(false)
       @project.status.should eql(Project::FAIL)
     end
+
+    it "should return an empty string when there are no builds" do
+      @project.builds = []
+      @project.status.should be_empty
+    end
   end
 end
