@@ -5,3 +5,12 @@
 .failure {
   background-color: #FF1100;
 }
+
+.log {
+  background: #111111 none repeat scroll 0 0;
+  color: #FFFFFF;
+  font-size: 0.825em;
+  max-height: 50em;
+  overflow: auto;
+  padding: 0.5em;
+}

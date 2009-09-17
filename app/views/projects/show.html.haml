@@ -1,0 +1,9 @@
+.project
+  .name= @project.name
+  .url= @project.url
+  .email= @project.email
+
+  .last_build
+    - build = @project.builds.last
+    .successful= build.successful
+    .log= build.log.gsub("\n", "<br>")
