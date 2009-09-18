@@ -50,3 +50,15 @@ require File.expand_path(File.dirname(__FILE__) + '/resource_helper')
 
 require "email_spec/helpers"
 require "email_spec/matchers"
+
+def random_word
+  Faker::Lorem.words(1).first
+end
+
+def build_author
+  Grit::Actor.new @author = Faker::Name.name, nil
+end
+
+def build_commit
+  Grit::Commit.new nil, @commit = random_word, [], nil, build_author, nil, nil, nil, [@comment = random_word]
+end

@@ -9,6 +9,8 @@ describe Build do
       Kernel.stub!(:system).and_return(false)
       File.stub!(:open).and_return(mock(Object, :read => "lorem ipsum"))
       @project = Project.koujou
+      @commits = [build_commit, build_commit]
+      Grit::Repo.stub!(:new).with(@project.path).and_return(mock(Grit::Repo, :commits => @commits))
       @log_path = "#{RAILS_ROOT}/tmp/#{@project.name}"
     end
 
@@ -40,11 +42,23 @@ describe Build do
       build.save
     end
 
-    it "should deliver an emails if build fails" do
+    it "should deliver an email if build fails" do
       Kernel.stub!(:system).and_return(false)
       build = Build.new :project => @project
       Notifier.should_receive(:deliver_fail_notification).with(build)
       build.save
+    end
+
+    it "should save the author of the commit that forced the build" do
+      Build.create!(:project => @project).author.should eql(@author)
+    end
+
+    it "should save the hash of the commit that forced the build" do
+      Build.create!(:project => @project).commit.should eql(@commit)
+    end
+
+    it "should save the comment of the commit that forced the build" do
+      Build.create!(:project => @project).comment.should eql(@comment)
     end
   end
 end

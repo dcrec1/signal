@@ -8,9 +8,10 @@ class Build < ActiveRecord::Base
   def before_validation_on_create
     unless project.nil?
       self.success, self.output = build project
-      self.commit = "fweg"
-      self.author = "fwefwe"
-      self.comment = "fwe"
+      commit = Grit::Repo.new(project.path).commits.last
+      self.commit = commit.id
+      self.author = commit.author.name
+      self.comment = commit.message
       Notifier.deliver_fail_notification(self) unless self.success
     end
   end
