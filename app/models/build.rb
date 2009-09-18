@@ -6,8 +6,10 @@ class Build < ActiveRecord::Base
   validates_presence_of :project, :output
 
   def before_validation_on_create
-    self.success, self.output = build project unless project.nil?
-    Notifier.deliver_fail_notification(self) unless self.success
+    unless project.nil?
+      self.success, self.output = build project
+      Notifier.deliver_fail_notification(self) unless self.success
+    end
   end
 
   def status
