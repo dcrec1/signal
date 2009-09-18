@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090917151232) do
+ActiveRecord::Schema.define(:version => 20090918215118) do
 
   create_table "builds", :force => true do |t|
     t.integer  "project_id"
@@ -17,6 +17,9 @@ ActiveRecord::Schema.define(:version => 20090917151232) do
     t.boolean  "success"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "author"
+    t.string   "commit"
+    t.string   "comment"
   end
 
   create_table "projects", :force => true do |t|
