@@ -3,11 +3,14 @@ class Build < ActiveRecord::Base
   FAIL      = "failure"
 
   belongs_to :project
-  validates_presence_of :project, :output
+  validates_presence_of :project, :output, :commit, :author, :comment
 
   def before_validation_on_create
     unless project.nil?
       self.success, self.output = build project
+      self.commit = "fweg"
+      self.author = "fwefwe"
+      self.comment = "fwe"
       Notifier.deliver_fail_notification(self) unless self.success
     end
   end
