@@ -12,8 +12,11 @@ class Build < ActiveRecord::Base
       self.commit = commit.id
       self.author = commit.author.name
       self.comment = commit.message
-      Notifier.deliver_fail_notification(self) unless self.success
     end
+  end
+
+  def after_create
+    Notifier.deliver_fail_notification(self) unless self.success
   end
 
   def status

@@ -1,13 +1,7 @@
-The build failed.
-
-AUTHOR
-
-= @build.author
-
-COMMENT
-
+= "The commit pushed by #{@build.author} on #{@build.created_at.to_s} broke the build. Commit message was:"
+\
 = @build.comment
-
+\
 OUTPUT
-
+\
 = @build.output
