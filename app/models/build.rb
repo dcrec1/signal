@@ -20,7 +20,7 @@ class Build < ActiveRecord::Base
   end
 
   def after_create
-    Notifier.deliver_fail_notification(self) unless self.success
+    Notifier.deliver_fail_notification self if build_failed
   end
 
   def status
@@ -28,6 +28,10 @@ class Build < ActiveRecord::Base
   end
 
   private
+
+  def build_failed
+    !self.success
+  end
 
   def fixed(build)
     self.success and !build.nil? and !build.success
