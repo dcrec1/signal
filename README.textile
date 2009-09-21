@@ -8,15 +8,19 @@ h2. INSTALLATION:
 
 3. Configure config/mailer.yml
 
-4. Setup the database
+4. Copy config/database.yml.sample to config/database.yml
+
+5. Configure config/database.yml
+
+6. Init the database
 
 <pre><code>rake db:migrate RAILS_ENV=production</code></pre>
 
-5. Start the jobs
+7. Start the jobs
 
 <pre><code>rake jobs:work</code></pre>
 
-6. Startup the application in your favourite server
+8. Startup the application in your favourite server
 
 h2. USAGE
 
