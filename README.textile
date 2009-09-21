@@ -12,15 +12,19 @@ h2. INSTALLATION:
 
 5. Configure config/database.yml
 
-6. Init the database
+6. Install missed gems
+
+<pre><code>rake gems:install</code></pre>
+
+7. Init the database
 
 <pre><code>rake db:migrate RAILS_ENV=production</code></pre>
 
-7. Start the jobs
+8. Start the jobs
 
-<pre><code>rake jobs:work</code></pre>
+<pre><code>rake jobs:work RAILS_ENV=production</code></pre>
 
-8. Startup the application in your favourite server
+9. Startup the application in your favourite server
 
 h2. USAGE
 
