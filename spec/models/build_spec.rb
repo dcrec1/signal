@@ -9,13 +9,13 @@ describe Build do
       Kernel.stub!(:system).and_return(false)
       File.stub!(:open).and_return(mock(Object, :read => "lorem ipsum"))
       @project = Project.koujou
-      @commits = [build_commit, build_commit]
+      @commits = [build_commit, build_commit].reverse
       Grit::Repo.stub!(:new).with(@project.path).and_return(mock(Grit::Repo, :commits => @commits))
       @log_path = "#{RAILS_ROOT}/tmp/#{@project.name}"
     end
 
-    it "should fetch the repository" do
-      Kernel.should_receive(:system).with("cd #{@project.path} && git fetch origin master > #{@log_path}")
+    it "should pull the repository" do
+      Kernel.should_receive(:system).with("cd #{@project.path} && git pull origin master > #{@log_path}")
       Build.create! :project => @project
     end
 

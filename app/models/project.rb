@@ -20,4 +20,9 @@ class Project < ActiveRecord::Base
   def build
     builds.create
   end
+
+  def last_builded_at
+    last_build = builds.last
+    last_build.nil? ? nil : last_build.created_at
+  end
 end

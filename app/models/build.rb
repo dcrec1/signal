@@ -8,7 +8,7 @@ class Build < ActiveRecord::Base
   def before_validation_on_create
     unless project.nil?
       self.success, self.output = build project
-      commit = Grit::Repo.new(project.path).commits.last
+      commit = Grit::Repo.new(project.path).commits.first
       self.commit = commit.id
       self.author = commit.author.name
       self.comment = commit.message
@@ -59,6 +59,6 @@ class Build < ActiveRecord::Base
   end
 
   def update_project
-    run "git fetch origin master > #{log_path}", :for => project
+    run "git pull origin master > #{log_path}", :for => project
   end
 end

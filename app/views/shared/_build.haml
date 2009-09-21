@@ -1,2 +1,5 @@
 .build{:class => build.status}
+  .author= build.author
+  .comment= build.comment
+  .date= ago(build.created_at)
   .output= build.output.gsub("\n", "<br>")
