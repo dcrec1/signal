@@ -1,10 +1,30 @@
 h2. INSTALLATION:
 
-h2. USAGE:
+1. Download the code:
 
-<pre>
-  <code>remarkable_plugin acts_as_et</code>
-</pre>
+<pre><code>git clone git://github.com/dcrec1/signal.git</code></pre>
+
+2. Copy config/mailer.yml.sample to config/mailer.yml
+
+3. Configure config/mailer.yml
+
+4. Setup the database
+
+<pre><code>rake db:migrate RAILS_ENV=production</code></pre>
+
+5. Start the jobs
+
+<pre><code>rake jobs:work</code></pre>
+
+6. Startup the application in your favourite server
+
+h2. USAGE
+
+To fire a build from a script you can ping:
+
+<pre><code>http://myserver/projects/id/build</code></pre>
+
+where myserver is the location of your application and id the id of the project.
 
 h2. LICENSE:
 
