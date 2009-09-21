@@ -16,4 +16,8 @@ class Project < ActiveRecord::Base
     return '' if builds.empty?
     builds.last.status
   end
+
+  def build
+    builds.create
+  end
 end

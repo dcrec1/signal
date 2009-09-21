@@ -19,6 +19,12 @@ describe Project do
     project.save
   end
 
+  it "responding to build creates a new project" do
+    project = Project.new
+    project.builds.should_receive(:create)
+    project.build
+  end
+
   context "when returing the status" do
     before :each do
       @project = Project.new :builds => [@build = Build.new]
