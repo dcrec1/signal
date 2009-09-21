@@ -18,6 +18,12 @@ h1 {
   line-height: 60px;
 }
 
+.build > * {
+  font-size: 40px;
+  line-height: 50px;
+  text-align: right;
+}
+
 .project > .url {
   display: block;
 }
@@ -32,7 +38,7 @@ h1 {
 }
 
 .failure {
-  background-color: #FF1100;
+  background-color: #FFDDCC;
 }
 
 .output {
@@ -43,4 +49,5 @@ h1 {
   max-height: 50em;
   overflow: auto;
   padding: 0.5em;
+  text-align: left;
 }
