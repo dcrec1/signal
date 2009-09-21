@@ -23,4 +23,24 @@ describe Notifier do
       @email.should deliver_from("signal@#{MAILER['domain']}")
     end
   end
+
+  context "delivering fix notification" do
+    before :all do
+      @address = "all@mouseoverstudio.com"
+      @name = "rails"
+      @email = Notifier.deliver_fix_notification Build.new(:project => Project.new(:email => @address, :name => @name))
+    end
+
+    it "should deliver to project email" do
+       @email.should deliver_to(@address)
+    end
+
+    it "should set '[Signal] PROJECT_NAME fixed' as the subject" do
+      @email.should have_subject("[Signal] #{@name} fixed")
+    end
+
+    it "should deliver from signal@MAILER_DOMAIN" do
+      @email.should deliver_from("signal@#{MAILER['domain']}")
+    end
+  end
 end
