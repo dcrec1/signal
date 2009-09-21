@@ -35,17 +35,49 @@ describe Build do
       Build.create!(:project => @project).success.should be_false
     end
 
-    it "should not deliver an email when build don't fail" do
+    it "should not deliver a fail notification email when build don't fail" do
       Kernel.stub!(:system).and_return(true)
       build = Build.new :project => @project
       Notifier.should_not_receive(:deliver_fail_notification).with(build)
       build.save
     end
 
-    it "should deliver an email if build fails" do
+    it "should deliver an fail notification email if build fails" do
       Kernel.stub!(:system).and_return(false)
       build = Build.new :project => @project
       Notifier.should_receive(:deliver_fail_notification).with(build)
+      build.save
+    end
+
+    it "should deliver a fix notification email if build success and last build failed" do
+      Kernel.stub!(:system).and_return(true)
+      Build.stub!(:last).and_return(mock(Build, :success => false))
+      build = Build.new :project => @project
+      Notifier.should_receive(:deliver_fix_notification).with(build)
+      build.save
+    end
+
+    it "should not deliver a fix notification email if build success and last build successed" do
+      Kernel.stub!(:system).and_return(true)
+      Build.stub!(:last).and_return(mock(Build, :success => true))
+      build = Build.new :project => @project
+      Notifier.should_not_receive(:deliver_fix_notification).with(build)
+      build.save
+    end
+
+    it "should not deliver a fix notification email if build fail and last build failed" do
+      Kernel.stub!(:system).and_return(false)
+      Build.stub!(:last).and_return(mock(Build, :success => false))
+      build = Build.new :project => @project
+      Notifier.should_not_receive(:deliver_fix_notification).with(build)
+      build.save
+    end
+
+    it "should not deliver a fix notification email if build fail and last build successed" do
+      Kernel.stub!(:system).and_return(false)
+      Build.stub!(:last).and_return(mock(Build, :success => false))
+      build = Build.new :project => @project
+      Notifier.should_not_receive(:deliver_fix_notification).with(build)
       build.save
     end
 

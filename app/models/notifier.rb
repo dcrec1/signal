@@ -7,4 +7,7 @@ class Notifier < ActionMailer::Base
     subject "[Signal] #{project.name} failed"
     body :build => build, :project => project
   end
+
+  def fix_notification(build)
+  end
 end

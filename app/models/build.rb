@@ -15,6 +15,10 @@ class Build < ActiveRecord::Base
     end
   end
 
+  def after_validation_on_create
+    Notifier.deliver_fix_notification self if fixed(Build.last)
+  end
+
   def after_create
     Notifier.deliver_fail_notification(self) unless self.success
   end
@@ -24,6 +28,10 @@ class Build < ActiveRecord::Base
   end
 
   private
+
+  def fixed(build)
+    self.success and !build.nil? and !build.success
+  end
 
   def build(project)
     update_project
