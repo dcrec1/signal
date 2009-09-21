@@ -6,7 +6,5 @@ javascripts:
   - jrails
 stylesheets:
 - base:
-  - formtastic
-  - formtastic_changes
   - scaffold
   - application

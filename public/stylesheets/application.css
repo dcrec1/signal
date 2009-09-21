@@ -1,3 +1,26 @@
+h1 {
+  font-size: 100px;
+}
+
+.project.success, .project.failure {
+  padding: 5px;
+  padding-left: 10px;
+  line-height: 50px;
+}
+
+.project > * {
+  display: inline;
+}
+
+.project > .name {
+  font-size: 50px;
+}
+
+.project > .date {
+  padding-left: 10px;
+  font-size: 25px;
+}
+
 .success {
   background-color: #DDFFCC;
 }
