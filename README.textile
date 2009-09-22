@@ -4,27 +4,23 @@ h2. INSTALLATION:
 
 <pre><code>git clone git://github.com/dcrec1/signal.git</code></pre>
 
-2. Copy config/mailer.yml.sample to config/mailer.yml
+2. Run the initialization script:
+
+<pre><code>./init.sh</code></pre>
 
 3. Configure config/mailer.yml
 
-4. Copy config/database.yml.sample to config/database.yml
+4. Configure config/database.yml
 
-5. Configure config/database.yml
-
-6. Install missed gems:
-
-<pre><code>rake gems:install</code></pre>
-
-7. Init the database:
+5. Initialize the database:
 
 <pre><code>rake db:migrate RAILS_ENV=production</code></pre>
 
-8. Start the jobs:
+6. Start a job:
 
-<pre><code>rake jobs:work RAILS_ENV=production</code></pre>
+<pre><code>script/delayed_job start -e production</code></pre>
 
-9. Startup the application in your favourite server
+7. Startup the application in your favourite server
 
 h2. UPDATE
 
