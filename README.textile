@@ -18,7 +18,7 @@ h2. INSTALLATION:
 
 6. Start a job:
 
-<pre><code>script/delayed_job start -e production</code></pre>
+<pre><code>RAILS_ENV=production script/delayed_job start</code></pre>
 
 7. Startup the application in your favourite server
 
