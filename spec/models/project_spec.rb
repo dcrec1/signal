@@ -54,4 +54,9 @@ describe Project do
   it "should return nil as last build date when no builds exists" do
     Project.new.last_builded_at.should be_nil
   end
+
+  it "should have name as a friendly_id" do
+    name = "rails"
+    Project.new(:name => name).friendly_id.should eql(name)
+  end
 end

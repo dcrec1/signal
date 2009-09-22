@@ -1,6 +1,8 @@
 class Project < ActiveRecord::Base
   BASE_PATH = "#{RAILS_ROOT}/public/projects"
 
+  has_friendly_id :name
+
   validates_presence_of :name, :url, :email
   has_many :builds
 
