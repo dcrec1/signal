@@ -4,8 +4,9 @@ describe ProjectsHelper do
   include ProjectsHelper
 
   it "should return the path to project metrics" do
+    ActionController::Base.relative_url_root = path = "/signal"
     name = "gogo"
-    metrics_path(Project.new :name => name).should eql("/projects/#{name}/tmp/metric_fu/output/index.html")
+    metrics_path(Project.new :name => name).should eql("#{path}/projects/#{name}/tmp/metric_fu/output/index.html")
   end
 
   context "returning the build date for a project" do

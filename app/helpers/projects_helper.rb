@@ -1,6 +1,6 @@
 module ProjectsHelper
   def metrics_path(project)
-    "/projects/#{project.name}/tmp/metric_fu/output/index.html"
+    "#{ActionController::Base.relative_url_root}/projects/#{project.name}/tmp/metric_fu/output/index.html"
   end
 
   def build_date_for(project)
