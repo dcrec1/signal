@@ -1,6 +1,45 @@
-h1 {
+ol {
+  list-style: none;
+  padding: 0px;
+}
+
+fieldset {
+  border: 0px;
+}
+
+abbr {
+  display: none;
+}
+
+input, .string {
+  font-size: 30px;
+  padding: 20px;
+}
+
+label {
+  float: left;
+  width: 200px;
+  line-height: 50px;
+}
+
+a {
+  margin-top: 10px;
+  font-size: 30px;
+  line-height: 50px;
+}
+
+.project > .name, .url, .email {
+  font-size: 50px;
+  line-height: 60px;
+}
+
+h1 a {
   font-size: 100px;
-  line-height: 10px;
+  line-height: 120px;
+}
+
+h1 {
+  line-height: 100px;
 }
 
 .project.success, .project.failure {
@@ -11,11 +50,6 @@ h1 {
 
 .project > * {
   display: inline;
-}
-
-.project > .name, .url, .email {
-  font-size: 50px;
-  line-height: 60px;
 }
 
 .build > * {

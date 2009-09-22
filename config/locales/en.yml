@@ -3,4 +3,7 @@
 
 en:
   ago: "ago"
-  new_project: "New Project"
+  build: "build"
+  edit: "edit"
+  metrics: "metrics"
+  new_project: "new project"

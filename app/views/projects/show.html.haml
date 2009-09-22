@@ -5,5 +5,6 @@
 
   .last_build= render :partial => "shared/build", :locals => {:build => @project.builds.last} unless @project.builds.empty?
 
-= link_to 'build', project_builds_path(@project), :method => :post
-= link_to 'metrics', metrics_path(@project)
+= link_to I18n.t(:edit),    edit_project_path(@project)
+= link_to I18n.t(:build),   project_builds_path(@project), :method => :post
+= link_to I18n.t(:metrics), metrics_path(@project)
