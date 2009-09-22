@@ -7,4 +7,4 @@
 
 = link_to I18n.t(:edit),    edit_project_path(@project)
 = link_to I18n.t(:build),   project_builds_path(@project), :method => :post
-= link_to I18n.t(:metrics), metrics_path(@project)
+= link_to I18n.t(:metrics), metrics_path(@project.name)

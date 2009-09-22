@@ -13,8 +13,7 @@ class Project < ActiveRecord::Base
   end
 
   def status
-    return '' if builds.empty?
-    builds.last.status
+    builds.last.try(:status) || ''
   end
 
   def build
@@ -22,7 +21,10 @@ class Project < ActiveRecord::Base
   end
 
   def last_builded_at
-    last_build = builds.last
-    last_build.nil? ? nil : last_build.created_at
+    builds.last.try(:created_at)
+  end
+
+  def last_commit
+    Grit::Repo.new(path).commits.first
   end
 end

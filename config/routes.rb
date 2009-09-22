@@ -4,4 +4,5 @@ ActionController::Routing::Routes.draw do |map|
     project.connect 'build', :controller => 'projects', :action => 'build'
   end
   map.root :controller => "projects"
+  map.metrics "/projects/:name/tmp/metric_fu/output/index.html", :controller => nil
 end

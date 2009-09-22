@@ -5,45 +5,50 @@ class Build < ActiveRecord::Base
   belongs_to :project
   validates_presence_of :project, :output, :commit, :author, :comment
 
+  def status
+    success ? SUCCESS : FAIL
+  end
+
+  protected
+
   def before_validation_on_create
-    unless project.nil?
-      self.success, self.output = build project
-      commit = Grit::Repo.new(project.path).commits.first
-      self.commit = commit.id
-      self.author = commit.author.name
-      self.comment = commit.message
-    end
+    return nil if project.nil?
+    self.output = build
+    take_data_from last_commit
   end
 
   def after_validation_on_create
-    Notifier.deliver_fix_notification self if fixed(Build.last)
+    Notifier.deliver_fix_notification self if fix?
   end
 
   def after_create
     Notifier.deliver_fail_notification self if build_failed
   end
 
-  def status
-    success ? SUCCESS : FAIL
-  end
-
   private
 
+  def last_commit
+     project.last_commit
+  end
+
+  def take_data_from(commit)
+    self.commit = commit.id
+    self.author = commit.author.name
+    self.comment = commit.message
+  end
+
   def build_failed
-    !self.success
+    !success
   end
 
-  def fixed(build)
-    self.success and !build.nil? and !build.success
+  def fix?
+    success and Build.last.try(:success) == false
   end
 
-  def build(project)
+  def build
     update_project
-    return result_for_specs, log_content
-  end
-
-  def run(cmd, opts)
-    Kernel.system "cd #{opts[:for].path} && #{cmd}"
+    run_specs
+    return log_content
   end
 
   def log_path
@@ -54,11 +59,15 @@ class Build < ActiveRecord::Base
     File.open(log_path).read
   end
 
-  def result_for_specs
-    run "rake build RAILS_ENV=test >> #{log_path}", :for => project
+  def run_specs
+    self.success = run "rake build RAILS_ENV=test >> #{log_path}"
   end
 
   def update_project
-    run "git pull origin master > #{log_path}", :for => project
+    run "git pull origin master > #{log_path}"
+  end
+
+  def run(cmd)
+    Kernel.system "cd #{project.path} && #{cmd}"
   end
 end
