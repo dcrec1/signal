@@ -27,6 +27,6 @@ class Project < ActiveRecord::Base
   end
 
   def last_commit
-    Grit::Repo.new(path).commits.first
+    Grit::Repo.new(path).commits.last
   end
 end
