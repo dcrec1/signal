@@ -1,4 +1,6 @@
 class Build < ActiveRecord::Base
+  delegate :last_commit, :to => :project
+  
   SUCCESS   = "success"
   FAIL      = "failure"
 
@@ -22,23 +24,15 @@ class Build < ActiveRecord::Base
   end
 
   def after_create
-    Notifier.deliver_fail_notification self if build_failed
+    Notifier.deliver_fail_notification self unless success
   end
 
   private
-
-  def last_commit
-     project.last_commit
-  end
 
   def take_data_from(commit)
     self.commit = commit.id
     self.author = commit.author.name
     self.comment = commit.message
-  end
-
-  def build_failed
-    !success
   end
 
   def fix?
@@ -66,8 +60,8 @@ class Build < ActiveRecord::Base
   def update_project
     run "git pull origin master > #{log_path}"
   end
-
+  
   def run(cmd)
-    Kernel.system "cd #{project.path} && #{cmd}"
-  end
+    project.run cmd
+  end 
 end

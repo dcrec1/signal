@@ -29,4 +29,8 @@ class Project < ActiveRecord::Base
   def last_commit
     Grit::Repo.new(path).commits.last
   end
+  
+  def run(cmd)
+    Kernel.system "cd #{path} && #{cmd}"
+  end
 end
