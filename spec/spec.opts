@@ -2,3 +2,4 @@
 --format progress
 --loadby mtime
 --reverse
+--format html:doc/specs.html
