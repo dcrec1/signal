@@ -16,7 +16,7 @@ Rails::Initializer.run do |config|
   config.gem 'remarkable_rails', :lib => false
   config.gem 'rspec-rails', :lib => false
   config.gem 'rspec', :lib => false
-  config.gem 'mojombo-grit', :lib => 'grit', :source => 'http://gems.github.com'
+  config.gem 'schacon-git', :lib => 'grit', :source => 'http://gems.github.com'
   # Settings in config/environments/* take precedence over those specified here.
   # Application configuration should go into files in config/initializers
   # -- all .rb files in that directory are automatically loaded.

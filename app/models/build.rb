@@ -30,7 +30,7 @@ class Build < ActiveRecord::Base
   private
 
   def take_data_from(commit)
-    self.commit = commit.id
+    self.commit = commit.sha
     self.author = commit.author.name
     self.comment = commit.message
   end

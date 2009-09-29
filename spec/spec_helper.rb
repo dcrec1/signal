@@ -56,9 +56,20 @@ def random_word
 end
 
 def build_author
-  Grit::Actor.new @author = Faker::Name.name, nil
+  object = Git::Author.new ''
+  object.stub!(:name).and_return(@author = Faker::Name.name)
+  object
 end
 
 def build_commit
-  Grit::Commit.new nil, @commit = random_word, [], nil, build_author, nil, nil, nil, [@comment = random_word]
+  object = mock(Object)
+  object.stub!(:author).and_return(build_author)
+  object.stub!(:message).and_return(@comment = random_word)
+  object.stub!(:sha).and_return(@commit = random_word)
+  object
+end
+
+def build_repo_for(project)
+  @commits = [build_commit, build_commit].reverse
+  Git.stub!(:open).with(project.path).and_return(mock(Object, :log => @commits))
 end
