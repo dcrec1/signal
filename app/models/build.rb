@@ -54,7 +54,7 @@ class Build < ActiveRecord::Base
   end
 
   def run_specs
-    self.success = run "rake build RAILS_ENV=test >> #{log_path} 2>&1"
+    self.success = run "rake build -N RAILS_ENV=test >> #{log_path} 2>&1"
   end
 
   def update_project

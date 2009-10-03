@@ -19,7 +19,7 @@ describe Build do
     end
 
     it "should build the project with the test environment" do
-      expect_for "cd #{@project.path} && rake build RAILS_ENV=test >> #{@log_path} 2>&1"
+      expect_for "cd #{@project.path} && rake build -N RAILS_ENV=test >> #{@log_path} 2>&1"
       Build.create! :project => @project
     end
 

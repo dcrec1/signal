@@ -37,7 +37,6 @@ class Project < ActiveRecord::Base
   private
 
   def execute(command)
-    puts command
     Kernel.system command
   end
 end
