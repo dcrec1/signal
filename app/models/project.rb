@@ -7,7 +7,7 @@ class Project < ActiveRecord::Base
   has_many :builds
 
   def after_create
-    Kernel.system "cd #{BASE_PATH} && git clone #{url} #{name}"
+    execute "cd #{BASE_PATH} && git clone #{url} #{name}"
   end
 
   def path
@@ -29,8 +29,15 @@ class Project < ActiveRecord::Base
   def last_commit
     Git.open(path).log.first
   end
-  
+
   def run(cmd)
-    Kernel.system "cd #{path} && #{cmd}"
+    execute "cd #{path} && #{cmd}"
+  end
+
+  private
+
+  def execute(command)
+    puts command
+    Kernel.system command
   end
 end

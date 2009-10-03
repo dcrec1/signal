@@ -15,7 +15,7 @@ describe Project do
 
   it "should clone a repository after a project is created" do
     project = Project.new :name => "social", :url => "git://social", :email => "fake@mouseoverstudio.com"
-    Kernel.should_receive(:system).with("cd #{Project::BASE_PATH} && git clone #{project.url} #{project.name}")
+    expect_for "cd #{Project::BASE_PATH} && git clone #{project.url} #{project.name}"
     project.save
   end
 
