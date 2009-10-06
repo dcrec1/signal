@@ -8,4 +8,5 @@ public/system
 public/projects
 config/mailer.yml
 config/database.yml
+config/deploy.rb
 doc/specs.html
