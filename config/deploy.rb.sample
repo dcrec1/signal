@@ -1,0 +1,5 @@
+deploy.application = "signal"
+deploy.repository = 'git://github.com/dcrec1/signal.git'
+deploy.user = 'dcrec1'
+deploy.hosts = ['hooters', 'geni']
+deploy.path = '/opt'
