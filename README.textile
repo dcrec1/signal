@@ -4,29 +4,47 @@ h2. INSTALLATION:
 
 <pre><code>git clone git://github.com/dcrec1/signal.git</code></pre>
 
-2. Run the initialization script:
+If your installing the application on a remote machine:
 
-<pre><code>./init.sh</code></pre>
+2.  Copy config/deploy.rb.sample to config/deploy.rb
+
+2.1 Configure config/deploy.rb
+
+2.2 Setup the application in the remote host:
+
+<pre><code>rake inploy:remote:setup</code></pre>
+
+Or if youre installing the application in the local machine:
+
+2. Setup the application
+
+<pre><code>rake inploy:local:setup</code></pre>
 
 3. Configure config/mailer.yml
 
-4. Configure config/database.yml
-
-5. Initialize the database:
-
-<pre><code>rake db:migrate RAILS_ENV=production</code></pre>
-
-6. Start a job:
+4. Start a job:
 
 <pre><code>RAILS_ENV=production script/delayed_job start</code></pre>
 
-7. Startup the application in your favourite server
+5. Startup the application in your favourite server (passenger recommended)
+
+If you want to use somer other database than SQLite (recommended):
+
+6. Configure config/database.yml
+
+7. Re-initialize the database:
+
+<pre><code>rake db:migrate RAILS_ENV=production</code></pre>
 
 h2. UPDATE
 
-1. Run the update script:
+From a remote machine:
 
-<pre><code>./update.sh</code></pre>
+<pre><code>rake inploy:remote:update</code></pre>
+
+Or from the local machine:
+
+<pre><code>rake inploy:local:update</code></pre>
 
 2. Restart the server
 
