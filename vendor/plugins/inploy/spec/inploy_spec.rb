@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 def expect_setup_with(user, path)
-  expect_command "ssh #{user}@#{@host} 'cd #{path} && sudo git clone #{@repository} #{@application} && sudo chown -R #{user} #{@application}'"
+  expect_command "ssh #{user}@#{@host} 'cd #{path} && git clone #{@repository} #{@application} && cd #{@application} && rake inploy:local:setup'"
 end
 
 describe Inploy::Deploy do
@@ -17,7 +17,7 @@ describe Inploy::Deploy do
   end
 
   context "on setup" do
-    it "should clone the repository with the application name" do
+    it "should clone the repository with the application name and execute local setup" do
       expect_setup_with @user, @path
       @object.remote_setup
     end
@@ -38,11 +38,6 @@ describe Inploy::Deploy do
       expect_setup_with 'root', @path
       @object.remote_setup
     end
-
-    it "should execute local setup" do
-      expect_command "ssh #{@user}@#{@host} 'cd #{@path}/#{@application} && rake inploy:local:setup'"
-      @object.remote_setup
-    end
   end
 
   context "on local setup" do
@@ -51,7 +46,7 @@ describe Inploy::Deploy do
       @object.local_setup
     end
 
-    it "should run migration at least" do
+    it "should run migration at the last thing" do
       Kernel.should_receive(:system).ordered
       Kernel.should_receive(:system).with("rake db:migrate RAILS_ENV=production").ordered
       @object.local_setup
@@ -88,6 +83,11 @@ describe Inploy::Deploy do
       file_exists "config/database.yml.sample"
       @object.local_setup
       File.open("config/database.yml").read.should eql(content)
+    end
+
+    it "should install gems" do
+      expect_command "rake gems:install"
+      @object.local_setup
     end
   end
 
@@ -137,6 +137,11 @@ describe Inploy::Deploy do
     it "should package the assets if asset_packager exists" do
       @object.stub!(:tasks).and_return("rake acceptance rake asset:packager:build_all rake asset:packager:create_yml")
       expect_command "rake asset:packager:build_all"
+      @object.local_update
+    end
+
+    it "should install gems" do
+      expect_command "rake gems:install"
       @object.local_update
     end
   end

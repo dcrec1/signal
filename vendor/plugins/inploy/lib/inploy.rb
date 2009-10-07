@@ -15,11 +15,11 @@ module Inploy
     end
 
     def remote_setup
-      remote_run "cd #{path} && sudo git clone #{repository} #{application} && sudo chown -R #{user} #{application}"
-      remote_run "cd #{application_path} && rake inploy:local:setup"
+      remote_run "cd #{path} && git clone #{repository} #{application} && cd #{application} && rake inploy:local:setup"
     end
 
     def local_setup
+      install_gems
       run "mkdir -p tmp/pids"
       Dir.glob("config/*.sample").each do |file|
         secure_copy file, file.gsub(".sample", '')
@@ -34,6 +34,7 @@ module Inploy
 
     def local_update
       run "git pull origin master"
+      install_gems
       migrate_database
       run "rm -R -f public/cache"
       rake_if_included "asset:packager:build_all"
@@ -75,7 +76,11 @@ module Inploy
     end
 
     def log(command)
-      puts command
+      puts "Inploy => #{command}"
+    end
+
+    def install_gems
+      rake "gems:install"
     end
   end
 end
