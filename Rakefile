@@ -9,6 +9,9 @@ require 'rake/rdoctask'
 
 require 'tasks/rails'
 
-require 'metric_fu'
+begin
+  require 'metric_fu'
+rescue Exception
+end
 
 task :build => [:'db:migrate', :spec, :'metrics:all']
