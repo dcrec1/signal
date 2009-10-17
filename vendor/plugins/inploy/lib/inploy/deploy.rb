@@ -1,0 +1,43 @@
+module Inploy
+  class Deploy
+    include Helper
+    
+    attr_accessor :repository, :user, :application, :hosts, :path
+
+    def template=(template)
+      require "inploy/#{template}"
+      extend eval(camelize(template))
+    end
+
+    def remote_setup
+      remote_run "cd #{path} && git clone #{repository} #{application} && cd #{application} && rake inploy:local:setup"
+    end
+
+    def local_setup
+      copy_sample_files
+      install_gems
+      run "mkdir -p tmp/pids"
+      run "./init.sh" if File.exists?("init.sh")
+      migrate_database
+    end
+
+    def remote_update
+      remote_run "cd #{application_path} && rake inploy:local:update"
+    end
+
+    def local_update
+      run "git pull origin master"
+      after_update_code
+    end
+    
+    private
+    
+    def after_update_code
+      install_gems
+      migrate_database
+      run "rm -R -f public/cache"
+      rake_if_included "asset:packager:build_all"
+      run "touch tmp/restart.txt"
+    end
+  end
+end

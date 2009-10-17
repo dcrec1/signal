@@ -1,12 +1,20 @@
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__)))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
 require 'rubygems'
 require 'inploy'
+require 'inploy/locaweb'
 require 'spec'
 require 'ruby-debug'
 require 'fakefs'
 
+require 'shared_examples'
+
 FakeFS.activate!
+
+def stub_tasks
+  subject.stub!(:tasks).and_return("rake acceptance rake spec rake asset:packager:create_yml")
+end
 
 def mute(object)
   object.stub!(:puts)
@@ -24,16 +32,12 @@ def dont_accept_command(command)
   Kernel.should_not_receive(:system).with(command)
 end
 
-def stub_file(file, result)
-  File.stub!(:exists?).with(file).and_return(result)
-end
-
 def file_doesnt_exists(file)
-  stub_file file, false
+  File.delete file
 end
 
 def file_exists(file, opts = {})
-  File.open(file, 'w') { |f| f.write (opts[:content] || '') }
+  File.open(file, 'w') { |f| f.write(opts[:content] || '') }
 end
 
 def path_exists(path)
