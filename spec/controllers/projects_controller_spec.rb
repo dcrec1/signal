@@ -10,4 +10,20 @@ describe ProjectsController do
       get :build, :project_id => project_id
     end
   end
+
+  context "responding to status" do
+    before :each do
+      Project.stub!(:all).and_return(@projects = [Project.new])
+    end
+
+    it "should return the status html panel for all the projects" do
+      get :status
+      response.should render_template("shared/_projects")
+    end
+
+    it "should assign all the projects to @projects" do
+      get :status
+      assigns[:projects].should eql(@projects)
+    end
+  end
 end
