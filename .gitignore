@@ -6,7 +6,11 @@ coverage
 solr
 public/system
 public/projects
+public/stylesheets
+public/cache
+public/javascripts/*_packaged.js
 config/mailer.yml
 config/database.yml
 config/deploy.rb
 doc/specs.html
+doc/features.html
