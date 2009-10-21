@@ -129,12 +129,23 @@ def should_behave_like_resource(opts = {})
     !formats.nil? && formats.include?(:xml)
   end
 
+  def formats_include_rss(opts)
+    formats = opts[:formats]
+    !formats.nil? && formats.include?(:rss)
+  end
+
   describe "GET index" do
     it "assigns all #{models} as @#{models}" do
       clazz.stub!(:find).with(:all).and_return([mocked_model])
       get :index, parameters
       assigns[models].should == [mocked_model]
     end if formats_include_html(opts)
+
+    it "responds as an rss" do
+      clazz.stub!(:find).with(:all).and_return([mocked_model])
+      get :index, parameters.merge(:format => :rss)
+      response.should render_template("index.rss.builder")
+    end if formats_include_rss(opts)
   end if should_show(opts, :index)
 
   describe "GET show" do
@@ -238,13 +249,6 @@ def should_behave_like_resource(opts = {})
         clazz.stub!(:find).and_return(mocked_model(:update_attributes => false))
         put :update, {:id => mocked_model_id}.merge(parameters)
         assigns[model].should equal(mocked_model)
-      end if formats_include_html(opts)
-
-      it "re-renders the 'edit' template" do
-        clazz.stub!(:find).and_return(mock = mocked_model(:update_attributes => false))
-        mock.should_receive(:errors).and_return([1])
-        put :update, {:id => mocked_model_id}.merge(parameters)
-        response.should render_template('edit')
       end if formats_include_html(opts)
     end
 
