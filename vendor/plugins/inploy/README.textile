@@ -1,0 +1,79 @@
+h2. ABOUT:
+
+Inploy is a Rails plugin to deploy applications in a easier way. You can use Inploy from a remote machine or from the local machine, too. It's integrated with Git, Rake and intended to do most of the common work, so you don't need to.
+
+Actually, Inploy has four rake tasks:
+
+* inploy:remote:setup
+
+- connects to a list of servers
+- clones a git repository
+- runs inploy:local:setup
+
+* inploy:remote:update
+
+- connects to a list of servers
+- runs inploy:local:update
+
+* inploy:local:setup
+
+- copies config/*.sample files to config/*
+- creates directory tmp/pids
+- executes init.sh file case it exists
+- installs gems
+- migrates the database for the production environment
+- cleans the cache in public/cache
+- parses less files if more:parse tasks exists
+- package the assets if asset:packager:build_all task exists
+- touch tmp/restart.txt
+
+* inploy:local:update
+
+- pulls the repository
+- installs gems
+- migrates the database for the production environment
+- cleans the cache in public/cache
+- parses less files if more:parse tasks exists
+- package the assets if asset:packager:build_all task exists
+- touch tmp/restart.txt
+
+h2. INSTALLATION:
+
+<pre><code>script/plugin install git://github.com/dcrec1/inploy.git</code></pre>
+
+h2. CONFIGURATION
+
+Create a config/deploy.rb file and configure it something like this:
+
+<pre><code>deploy.application = "signal"
+deploy.repository = 'git://github.com/dcrec1/signal.git'
+deploy.user = 'dcrec1'
+deploy.hosts = ['hooters', 'geni']
+deploy.path = '/opt'</code></pre>
+
+Path and user are optional, default values are /opt and root.
+
+h2. LICENSE:
+
+(The MIT License)
+
+Copyright (c) 2009
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+'Software'), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
