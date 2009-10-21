@@ -1,4 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
+  map.projects_status "/projects/status", :controller => :projects, :action => :status
   map.resources :projects do |project|
     project.resources :builds
     project.connect 'build', :controller => 'projects', :action => 'build'
@@ -7,6 +8,4 @@ ActionController::Routing::Routes.draw do |map|
   map.metrics  "/projects/:name/tmp/metric_fu/output/index.html", :controller => nil
   map.specs    "/projects/:name/doc/specs.html",                  :controller => nil
   map.features "/projects/:name/doc/features.html",               :controller => nil
-
-  map.projects_status "/projects/status", :controller => :projects, :action => :status
 end

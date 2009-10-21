@@ -1,5 +1,5 @@
 .projects= render :partial => "shared/projects"
 
-= periodically_call_remote :url => projects_status_path, :update => '.projects'
+= periodically_call_remote :url => projects_status_path, :update => '.projects', :method => :get
 
 = link_to I18n.t(:new_project), new_project_path
