@@ -40,7 +40,7 @@ class Project < ActiveRecord::Base
   def delete(*names)
     names.each do |name|
       begin
-        File.delete "public/cache/#{name}.html"
+        File.delete "#{RAILS_ROOT}/public/cache/#{name}.html"
       rescue Exception
       end
     end

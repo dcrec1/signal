@@ -59,6 +59,8 @@ describe Project do
 
   context "cleaning the cache" do
     before :all do
+      @rails_root = RAILS_ROOT
+      RAILS_ROOT = "/fake"
       FakeFS.activate!
       @name = ":name"
       @project = Project.new(:name => @name)
@@ -66,14 +68,15 @@ describe Project do
 
     %w(index projects projects/status projects/:name).each do |name|
       it "should delete public/cache/#{name}.html" do
-        file_exists "public/cache/#{name}.html"
+        file_exists "#{RAILS_ROOT}/public/cache/#{name}.html"
         @project.send :clean_cache
-        File.exists?("public/cache/#{name}.html").should be_false
+        File.exists?("#{RAILS_ROOT}/public/cache/#{name}.html").should be_false
       end
     end
 
     after :all do
       FakeFS.deactivate!
+      RAILS_ROOT = @rails_root
     end
   end
 
