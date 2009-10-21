@@ -19,10 +19,21 @@ describe Project do
     project.save
   end
 
-  it "responding to build creates a new project" do
-    project = Project.new
-    project.builds.should_receive(:create)
-    project.build
+  context "responding to build" do
+    before :each do
+      @project = Project.new
+    end
+
+    it "builds the project creating a new build" do
+      @project.builds.should_receive(:create)
+      @project.build
+    end
+
+    it "should clean the cache at last" do
+      @project.should_receive(:builds).ordered.and_return(mock(Object, :create => nil))
+      @project.should_receive(:clean_cache).ordered
+      @project.build
+    end
   end
 
   context "when returing the status" do
@@ -43,6 +54,26 @@ describe Project do
     it "should return an empty string when there are no builds" do
       @project.builds = []
       @project.status.should be_empty
+    end
+  end
+
+  context "cleaning the cache" do
+    before :all do
+      FakeFS.activate!
+      @name = ":name"
+      @project = Project.new(:name => @name)
+    end
+
+    %w(index projects projects/status projects/:name).each do |name|
+      it "should delete public/cache/#{name}.html" do
+        file_exists "public/cache/#{name}.html"
+        @project.send :clean_cache
+        File.exists?("public/cache/#{name}.html").should be_false
+      end
+    end
+
+    after :all do
+      FakeFS.deactivate!
     end
   end
 

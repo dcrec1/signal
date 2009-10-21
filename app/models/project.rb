@@ -20,6 +20,7 @@ class Project < ActiveRecord::Base
 
   def build
     builds.create
+    clean_cache
   end
 
   def last_builded_at
@@ -35,6 +36,19 @@ class Project < ActiveRecord::Base
   end
 
   private
+
+  def delete(*names)
+    names.each do |name|
+      begin
+        File.delete "public/cache/#{name}.html"
+      rescue Exception
+      end
+    end
+  end
+
+  def clean_cache
+    delete "index", "projects", "projects/status", "projects/#{self.name}"
+  end
 
   def execute(command)
     Kernel.system command

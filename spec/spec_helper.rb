@@ -16,6 +16,8 @@ require File.expand_path(File.dirname(__FILE__) + '/resource_helper')
 require "email_spec/helpers"
 require "email_spec/matchers"
 
+require 'fakefs'
+
 def random_word
   Faker::Lorem.words(1).first
 end
@@ -53,4 +55,8 @@ end
 
 def success_on_command
   on_command_return true
+end
+
+def file_exists(file, opts = {})
+  File.open(file, 'w') { |f| f.write(opts[:content] || '') }
 end
