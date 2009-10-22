@@ -63,15 +63,10 @@ module InheritedResources
         raise ArgumentError, 'Wrong number of arguments. You have to provide which actions you want to keep.' if actions_to_keep.empty?
 
         options = actions_to_keep.extract_options!
-        actions_to_keep.map!{ |a| a.to_s }
-
         actions_to_remove = Array(options[:except])
-        actions_to_remove.map!{ |a| a.to_s }
-
-        actions_to_remove += ACTIONS.map{ |a| a.to_s } - actions_to_keep unless actions_to_keep.first == 'all'
-        actions_to_remove.uniq!
-
-        (instance_methods & actions_to_remove).each do |action|
+        actions_to_remove += ACTIONS - actions_to_keep.map { |a| a.to_sym } unless actions_to_keep.first == :all
+        actions_to_remove.map! { |a| a.to_sym }.uniq!
+        (instance_methods.map { |m| m.to_sym } & actions_to_remove).each do |action|
           undef_method action, "#{action}!"
         end
       end
@@ -118,6 +113,12 @@ module InheritedResources
       # * <tt>:as</tt> - The key in the params hash expected to find the scope.
       #                  Defaults to the scope name.
       #
+      # * <tt>:if</tt> - Specifies a method, proc or string to call to determine
+      #                  if the scope should apply
+      #
+      # * <tt>:unless</tt> - Specifies a method, proc or string to call to determine
+      #                      if the scope should NOT apply.
+      #
       # * <tt>:default</tt> - Default value for the scope. Whenever supplied the scope
       #                       is always called. This is useful to add easy pagination.
       #
@@ -125,7 +126,8 @@ module InheritedResources
         options = scopes.extract_options!
 
         options.symbolize_keys!
-        options.assert_valid_keys(:boolean, :key, :only, :except, :default, :as)
+        options.assert_valid_keys(:boolean, :key, :only, :except,
+                                  :if, :unless, :default, :as)
 
         if options[:key]
           ActiveSupport::Deprecation.warn "has_scope :key is deprecated, use :as instead"
@@ -142,8 +144,10 @@ module InheritedResources
           self.scopes_configuration[scope][:as]      = options[:as] || scope
           self.scopes_configuration[scope][:only]    = Array(options[:only])
           self.scopes_configuration[scope][:except]  = Array(options[:except])
-          self.scopes_configuration[scope][:boolean] = options[:boolean] if options.key?(:boolean)
-          self.scopes_configuration[scope][:default] = options[:default] if options.key?(:default)
+
+          [:if, :unless, :boolean, :default].each do |opt|
+            self.scopes_configuration[scope][opt] = options[opt] if options.key?(opt)
+          end
         end
       end
 
@@ -236,7 +240,7 @@ module InheritedResources
 
           config = self.resources_configuration[symbol] = {}
           config[:parent_class]    = options.delete(:parent_class)
-          config[:parent_class]  ||= (options.delete(:class_name) || symbol).to_s.classify.constantize rescue nil
+          config[:parent_class]  ||= (options.delete(:class_name) || symbol).to_s.pluralize.classify.constantize rescue nil
           config[:collection_name] = options.delete(:collection_name) || symbol.to_s.pluralize.to_sym
           config[:instance_name]   = options.delete(:instance_name) || symbol
           config[:param]           = options.delete(:param) || :"#{symbol}_id"

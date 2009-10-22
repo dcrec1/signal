@@ -1,6 +1,6 @@
 Inherited Resources
 License: MIT
-Version: 0.9.1
+Version: 0.9.2
 
 == Description
 
@@ -23,8 +23,8 @@ keywords: resources, controller, singleton, belongs_to, polymorphic, named_scope
 Install Inherited Resources is very easy. It is stored in GitHub, so just run
 the following:
 
-    gem sources -a http://gems.github.com
-    sudo gem install josevalim-inherited_resources
+    gem sources -a http://gemcutter.org
+    sudo gem install inherited_resources
 
 If you want it as plugin, just do:
 
@@ -126,7 +126,7 @@ projects collection:
     class ProjectsController < InheritedResources::Base
       protected
         def collection
-          @projects ||= end_of_association_chain.paginate(params[:page]).all
+          @projects ||= end_of_association_chain.paginate(:page => params[:page])
         end
     end
 
@@ -517,7 +517,8 @@ associations, that relies on Rails polymorphic_url).
 
 == Bugs and Feedback
 
-If you discover any bugs, please send an e-mail to jose.valim@plataformatec.com.br
-If you just want to give some positive feedback or drop a line, that's fine too!
+If you discover any bugs or want to drop a line, join us in the mailing list:
+
+http://groups.google.com/group/inherited_resources
 
 Copyright (c) 2009 José Valim http://blog.plataformatec.com.br

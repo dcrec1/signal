@@ -5,6 +5,7 @@ class Project < ActiveRecord::Base
 
   validates_presence_of :name, :url, :email
   has_many :builds
+  has_many :deploys
 
   def after_create
     execute "cd #{BASE_PATH} && git clone #{url} #{name}"

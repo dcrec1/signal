@@ -3,6 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe Project do
   should_validate_presence_of :name, :url, :email
   should_have_many :builds
+  should_have_many :deploys
 
   it "should have public/projects as the projects base path" do
     Project::BASE_PATH.should eql("#{RAILS_ROOT}/public/projects")

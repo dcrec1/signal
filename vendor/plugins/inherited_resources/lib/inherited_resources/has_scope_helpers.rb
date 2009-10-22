@@ -44,6 +44,8 @@ module InheritedResources
       # can be performed in the current action.
       #
       def apply_scope_to_action?(options) #:nodoc:
+        return false unless applicable?(options[:if], true)
+        return false unless applicable?(options[:unless], false)
         if options[:only].empty?
           if options[:except].empty?
             true
@@ -52,6 +54,22 @@ module InheritedResources
           end
         else
           options[:only].include?(action_name.to_sym)
+        end
+      end
+
+      # Evaluates the scope options :if or :unless. Returns true if the proc
+      # method, or string evals to the expected value.
+      #
+      def applicable?(string_proc_or_symbol, expected)
+        case string_proc_or_symbol
+          when String
+            eval(string_proc_or_symbol) == expected
+          when Proc
+            string_proc_or_symbol.call(self) == expected
+          when Symbol
+            send(string_proc_or_symbol) == expected
+          else
+            true
         end
       end
 
