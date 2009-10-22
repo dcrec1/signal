@@ -1,5 +1,6 @@
 class Build < ActiveRecord::Base
   delegate :last_commit, :to => :project
+  delegate :log_path, :to => :project
 
   SUCCESS   = "success"
   FAIL      = "failure"
@@ -40,13 +41,9 @@ class Build < ActiveRecord::Base
   end
 
   def build
-    update_project
+    project.update
     run_specs
     return log_content
-  end
-
-  def log_path
-    "#{RAILS_ROOT}/tmp/#{project.name}"
   end
 
   def log_content
@@ -54,14 +51,6 @@ class Build < ActiveRecord::Base
   end
 
   def run_specs
-    self.success = run "rake build -N RAILS_ENV=test >> #{log_path} 2>&1"
-  end
-
-  def update_project
-    run "git pull origin master > #{log_path} 2>&1"
-  end
-
-  def run(cmd)
-    project.run cmd
+    self.success = project.rake_build
   end
 end

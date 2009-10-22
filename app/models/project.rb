@@ -14,6 +14,10 @@ class Project < ActiveRecord::Base
     "#{BASE_PATH}/#{name}"
   end
 
+  def log_path
+    "#{RAILS_ROOT}/tmp/#{name}"
+  end
+
   def status
     builds.last.try(:status) || ''
   end
@@ -30,11 +34,21 @@ class Project < ActiveRecord::Base
     Git.open(path).log.first
   end
 
-  def run(cmd)
-    execute "cd #{path} && #{cmd}"
+  def update
+    run "git pull origin master > #{log_path} 2>&1"
+  end
+
+  protected
+
+  def rake_build
+    run "rake build -N RAILS_ENV=test >> #{log_path} 2>&1"
   end
 
   private
+
+  def run(cmd)
+    execute "cd #{path} && #{cmd}"
+  end
 
   def execute(command)
     Kernel.system command
