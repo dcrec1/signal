@@ -1,0 +1,18 @@
+<p>
+  <b>Project:</b>
+  <%=h @deploy.project %>
+</p>
+
+<p>
+  <b>Output:</b>
+  <%=h @deploy.output %>
+</p>
+
+<p>
+  <b>Success:</b>
+  <%=h @deploy.success %>
+</p>
+
+
+<%= link_to 'Edit', edit_deploy_path(@deploy) %> |
+<%= link_to 'Back', deploys_path %>

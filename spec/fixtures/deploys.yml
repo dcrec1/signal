@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  project: 
+  output: MyText
+  success: false
+
+two:
+  project: 
+  output: MyText
+  success: false

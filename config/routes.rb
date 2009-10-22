@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :deploys
+
   map.projects_status "/projects/status", :controller => :projects, :action => :status
   map.resources :projects do |project|
     project.resources :builds
