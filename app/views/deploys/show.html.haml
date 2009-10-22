@@ -1,0 +1,3 @@
+.deploy{:class => deploy.status}
+  .date= ago(deploy.created_at)
+  .output= deploy.output.gsub("\n", "<br>")
