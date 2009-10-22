@@ -1,14 +1,8 @@
 class Build < ActiveRecord::Base
-
-  SUCCESS   = "success"
-  FAIL      = "failure"
+  include Status
 
   belongs_to :project
   validates_presence_of :project, :output, :commit, :author, :comment
-
-  def status
-    success ? SUCCESS : FAIL
-  end
 
   protected
 

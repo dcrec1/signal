@@ -1,4 +1,6 @@
 class Deploy < ActiveRecord::Base
+  include Status
+
   belongs_to :project
   validates_presence_of :project, :output
 
