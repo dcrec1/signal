@@ -8,12 +8,23 @@ describe Deploy do
     before :each do
       fail_on_command
       File.stub!(:open).and_return(mock(Object, :read => "lorem ipsum"))
+      @project = Project.new :name => "inploy"
     end
 
     it "should deploy the project raking inploy:remote:update" do
-      project = Project.new :name => "inploy"
-      expect_for "cd #{project.send :path} && rake inploy:remote:update > #{project.send :log_path} 2>&1"
-      Deploy.create! :project => project
+      expect_for "cd #{@project.send :path} && rake inploy:remote:update > #{@project.send :log_path} 2>&1"
+      Deploy.create! :project => @project
+    end
+
+    it "should save the log" do
+      log = "Can't touch this!"
+      File.stub!(:open).with(@project.send :log_path).and_return(mock(Object, :read => log))
+      Deploy.create!(:project => @project).output.should eql(log)
+    end
+
+    it "should determine if the deploy was a success or not" do
+      success_on_command
+      Deploy.create!(:project => @project).success.should be_true
     end
   end
 end
