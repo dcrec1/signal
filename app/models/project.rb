@@ -18,22 +18,26 @@ class Project < ActiveRecord::Base
     builds.create
   end
 
+  def deploy
+    run "rake inploy:remote:update >"
+  end
+
   def last_builded_at
     builds.last.try(:created_at)
+  end
+
+  protected
+
+  def update
+    run "git pull origin master >"
   end
 
   def last_commit
     Git.open(path).log.first
   end
 
-  def update
-    run "git pull origin master > #{log_path} 2>&1"
-  end
-
-  protected
-
   def rake_build
-    result = run "rake build -N RAILS_ENV=test >> #{log_path} 2>&1"
+    result = run "rake build -N RAILS_ENV=test >>"
     return result, File.open(log_path).read
   end
 
@@ -48,7 +52,7 @@ class Project < ActiveRecord::Base
   end
 
   def run(cmd)
-    execute "cd #{path} && #{cmd}"
+    execute "cd #{path} && #{cmd} #{log_path} 2>&1"
   end
 
   def execute(command)

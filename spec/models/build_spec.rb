@@ -10,22 +10,21 @@ describe Build do
       File.stub!(:open).and_return(mock(Object, :read => "lorem ipsum"))
       @project = Project.koujou
       build_repo_for @project
-      @log_path = "#{RAILS_ROOT}/tmp/#{@project.name}"
     end
 
     it "should pull the repository" do
-      expect_for "cd #{@project.send :path} && git pull origin master > #{@log_path} 2>&1"
+      expect_for "cd #{@project.send :path} && git pull origin master > #{@project.send :log_path} 2>&1"
       Build.create! :project => @project
     end
 
     it "should build the project with the test environment" do
-      expect_for "cd #{@project.send :path} && rake build -N RAILS_ENV=test >> #{@log_path} 2>&1"
+      expect_for "cd #{@project.send :path} && rake build -N RAILS_ENV=test >> #{@project.send :log_path} 2>&1"
       Build.create! :project => @project
     end
 
     it "should save the log" do
       log = "Can't touch this!"
-      File.stub!(:open).with(@log_path).and_return(mock(Object, :read => log))
+      File.stub!(:open).with(@project.send :log_path).and_return(mock(Object, :read => log))
       Build.create!(:project => @project).output.should eql(log)
     end
 

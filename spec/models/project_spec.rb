@@ -54,4 +54,10 @@ describe Project do
     name = "rails"
     Project.new(:name => name).friendly_id.should eql(name)
   end
+
+  it "should be deployed executing rake inploy:remote:update" do
+    project = Project.new :name => "inploy"
+    expect_for "cd #{project.send :path} && rake inploy:remote:update > #{project.send :log_path} 2>&1"
+    project.deploy
+  end
 end
