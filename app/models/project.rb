@@ -20,7 +20,7 @@ class Project < ActiveRecord::Base
   end
 
   def deploy
-    run "rake inploy:remote:update >"
+    deploys.create
   end
 
   def last_builded_at
@@ -39,6 +39,11 @@ class Project < ActiveRecord::Base
 
   def rake_build
     result = run "rake build -N RAILS_ENV=test >>"
+    return result, File.open(log_path).read
+  end
+
+  def rake_deploy
+    result = run "rake inploy:remote:update >"
     return result, File.open(log_path).read
   end
 

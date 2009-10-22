@@ -15,7 +15,7 @@ describe Project do
     project.save
   end
 
-  it "builds the project creating a new build" do
+  it "should build the project creating a new build" do
     project = Project.new
     project.builds.should_receive(:create)
     project.build
@@ -56,9 +56,9 @@ describe Project do
     Project.new(:name => name).friendly_id.should eql(name)
   end
 
-  it "should be deployed executing rake inploy:remote:update" do
-    project = Project.new :name => "inploy"
-    expect_for "cd #{project.send :path} && rake inploy:remote:update > #{project.send :log_path} 2>&1"
+  it "should deploy the project creating a new deploy" do
+    project = Project.new
+    project.deploys.should_receive(:create)
     project.deploy
   end
 end
