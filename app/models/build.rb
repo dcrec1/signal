@@ -1,6 +1,4 @@
 class Build < ActiveRecord::Base
-  delegate :last_commit, :to => :project
-  delegate :log_path, :to => :project
 
   SUCCESS   = "success"
   FAIL      = "failure"
@@ -16,8 +14,9 @@ class Build < ActiveRecord::Base
 
   def before_validation_on_create
     return nil if project.nil?
-    self.output = build
-    take_data_from last_commit
+    project.update
+    self.success, self.output = project.rake_build
+    take_data_from project.last_commit
   end
 
   def after_validation_on_create
@@ -38,19 +37,5 @@ class Build < ActiveRecord::Base
 
   def fix?
     success and Build.last.try(:success) == false
-  end
-
-  def build
-    project.update
-    run_specs
-    return log_content
-  end
-
-  def log_content
-    File.open(log_path).read
-  end
-
-  def run_specs
-    self.success = project.rake_build
   end
 end

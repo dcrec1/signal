@@ -11,7 +11,8 @@ require 'tasks/rails'
 
 begin
   require 'metric_fu'
-rescue Exception
+rescue Exception => e
+  puts e
 end
 
 task :build => [:'db:migrate', :spec, :'metrics:all']

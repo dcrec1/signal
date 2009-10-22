@@ -38,7 +38,7 @@ end
 
 def build_repo_for(project)
   @commits = [build_commit, build_commit].reverse
-  Git.stub!(:open).with(project.path).and_return(mock(Object, :log => @commits))
+  Git.stub!(:open).with(project.send :path).and_return(mock(Object, :log => @commits))
 end
 
 def expect_for(command)

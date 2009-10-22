@@ -10,14 +10,6 @@ class Project < ActiveRecord::Base
     execute "cd #{BASE_PATH} && git clone #{url} #{name}"
   end
 
-  def path
-    "#{BASE_PATH}/#{name}"
-  end
-
-  def log_path
-    "#{RAILS_ROOT}/tmp/#{name}"
-  end
-
   def status
     builds.last.try(:status) || ''
   end
@@ -41,10 +33,19 @@ class Project < ActiveRecord::Base
   protected
 
   def rake_build
-    run "rake build -N RAILS_ENV=test >> #{log_path} 2>&1"
+    result = run "rake build -N RAILS_ENV=test >> #{log_path} 2>&1"
+    return result, File.open(log_path).read
   end
 
   private
+
+  def path
+    "#{BASE_PATH}/#{name}"
+  end
+
+  def log_path
+    "#{RAILS_ROOT}/tmp/#{name}"
+  end
 
   def run(cmd)
     execute "cd #{path} && #{cmd}"
