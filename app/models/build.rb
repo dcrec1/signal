@@ -8,7 +8,7 @@ class Build < ActiveRecord::Base
 
   def before_validation_on_create
     return nil if project.nil?
-    project.update
+    project.update_code
     self.success, self.output = project.rake_build
     take_data_from project.last_commit
   end

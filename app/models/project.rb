@@ -29,7 +29,7 @@ class Project < ActiveRecord::Base
 
   protected
 
-  def update
+  def update_code
     run "git pull origin master >"
   end
 
