@@ -10,3 +10,4 @@
 = link_to I18n.t(:specs),    specs_path(project.name)
 = link_to I18n.t(:features), features_path(project.name)
 = link_to I18n.t(:metrics),  metrics_path(project.name)
+= link_to I18n.t(:deploy),   project_deploys_path(project), :method => :post
