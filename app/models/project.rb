@@ -62,6 +62,7 @@ class Project < ActiveRecord::Base
   end
 
   def execute(command)
+    Rails.logger.info "Signal => #{command}"
     Kernel.system command
   end
 end

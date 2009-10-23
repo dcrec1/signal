@@ -5,6 +5,7 @@ en:
   ago: "ago"
   build: "build"
   edit: "edit"
+  deploy: "deploy"
   features: "features"
   metrics: "metrics"
   new_project: "new project"
