@@ -23,3 +23,9 @@ end
 
 require 'cucumber/rails/rspec'
 require 'webrat/core/matchers'
+
+require 'spec/stubs/cucumber'
+
+Before do
+  Kernel.stub!(:system)
+end

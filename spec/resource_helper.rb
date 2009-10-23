@@ -192,12 +192,6 @@ def should_behave_like_resource(opts = {})
         post :create, {model => {:these => 'parameters'}}.merge(parameters)
         assigns[model].should equal(mocked_model)
       end if formats_include_html(opts)
-
-      it "redirects to the created #{model}" do
-        clazz.stub!(:new).and_return(mocked_model(:save => true))
-        post :create, {model => {}}.merge(parameters)
-        response.should redirect_to(model_url)
-      end if formats_include_html(opts)
     end
 
     describe "with invalid parameters" do
@@ -210,7 +204,7 @@ def should_behave_like_resource(opts = {})
       it "re-renders the 'new' template" do
         clazz.stub!(:new).and_return(mocked_model(:save => false))
         post :create, {model => {}}.merge(parameters)
-        response.should render_template('new')
+        response.should render_template('create')
       end if formats_include_html(opts)
     end
 
@@ -230,12 +224,6 @@ def should_behave_like_resource(opts = {})
         put :update, {:id => mocked_model_id}.merge(parameters)
         assigns[model].should equal(mocked_model)
       end if formats_include_html(opts)
-
-      it "redirects to the #{model}" do
-        clazz.stub!(:find).and_return(mocked_model(:update_attributes => true))
-        put :update, {:id => mocked_model_id}.merge(parameters)
-        response.should redirect_to(model_url)
-      end unless (opts[:without].eql?('update.redirect') or !formats_include_html(opts))
     end
 
     describe "with invalid parameters" do
@@ -259,12 +247,6 @@ def should_behave_like_resource(opts = {})
       clazz.should_receive(:find).with(mocked_model_id).and_return(mocked_model) unless nested?
       mocked_model.should_receive(:destroy)
       delete :destroy, {:id => mocked_model_id}.merge(parameters)
-    end if formats_include_html(opts)
-
-    it "redirects to the #{models} list" do
-      clazz.stub!(:find).and_return(mocked_model(:destroy => true))
-      delete :destroy, {:id => mocked_model_id}.merge(parameters)
-      response.should redirect_to(models_url)
     end if formats_include_html(opts)
   end if should_show(opts, :destroy)
 end
