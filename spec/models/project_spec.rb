@@ -13,7 +13,6 @@ describe Project do
     before :each do
       success_on_command
       @project = Project.new :name => "social", :url => "git://social", :email => "fake@mouseoverstudio.com"
-      Inploy::Deploy.stub!(:new).and_return(@deploy = mock(Inploy::Deploy, :local_setup => nil))
     end
 
     it "should clone a repository" do
@@ -21,18 +20,8 @@ describe Project do
       @project.save
     end
 
-    it "should invoke an inploy setup if Inploy exists" do
-      module Inploy
-        class Deploy
-        end
-      end
-      @deploy.should_receive(:local_setup)
-      @project.save
-    end
-
-    it "should not invoke an inploy setup if Inploy does not exists" do
-      Inploy = false
-      @deploy.should_not_receive(:local_setup)
+    it "should run inploy:local:setup" do
+      expect_for "cd #{@project.send :path} && rake inploy:local:setup > #{@project.send :log_path} 2>&1"
       @project.save
     end
   end

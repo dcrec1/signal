@@ -9,7 +9,7 @@ class Project < ActiveRecord::Base
 
   def after_create
     execute "cd #{BASE_PATH} && git clone #{url} #{name}"
-    Inploy::Deploy.new.local_setup if Inploy
+    run "rake inploy:local:setup >"
   end
 
   def status
