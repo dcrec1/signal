@@ -9,10 +9,32 @@ describe Project do
     Project::BASE_PATH.should eql("#{RAILS_ROOT}/public/projects")
   end
 
-  it "should clone a repository after a project is created" do
-    project = Project.new :name => "social", :url => "git://social", :email => "fake@mouseoverstudio.com"
-    expect_for "cd #{Project::BASE_PATH} && git clone #{project.url} #{project.name}"
-    project.save
+  context "on creation" do
+    before :each do
+      success_on_command
+      @project = Project.new :name => "social", :url => "git://social", :email => "fake@mouseoverstudio.com"
+      Inploy::Deploy.stub!(:new).and_return(@deploy = mock(Inploy::Deploy, :local_setup => nil))
+    end
+
+    it "should clone a repository" do
+      expect_for "cd #{Project::BASE_PATH} && git clone #{@project.url} #{@project.name}"
+      @project.save
+    end
+
+    it "should invoke an inploy setup if Inploy exists" do
+      module Inploy
+        class Deploy
+        end
+      end
+      @deploy.should_receive(:local_setup)
+      @project.save
+    end
+
+    it "should not invoke an inploy setup if Inploy does not exists" do
+      Inploy = false
+      @deploy.should_not_receive(:local_setup)
+      @project.save
+    end
   end
 
   it "should build the project creating a new build" do

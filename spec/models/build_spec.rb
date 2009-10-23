@@ -6,6 +6,10 @@ describe Build do
   it_should_behave_like 'statusable'
 
   context "on creation" do
+    before :all do
+      Inploy = false
+    end
+
     before :each do
       fail_on_command
       File.stub!(:open).and_return(mock(Object, :read => "lorem ipsum"))

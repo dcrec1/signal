@@ -6,7 +6,7 @@ RAILS_GEM_VERSION = '2.3.4' unless defined? RAILS_GEM_VERSION
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
 
-MAILER = YAML.load_file("#{RAILS_ROOT}/config/mailer.yml") rescue {'domain' => "localhost"}
+MAILER = YAML.load_file("#{RAILS_ROOT}/config/mailer.yml")
 
 Rails::Initializer.run do |config|
   config.gem 'less'
