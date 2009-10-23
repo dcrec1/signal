@@ -1,3 +1,12 @@
-.project{:class => project.status}
+.project
   .name= project.name
-  .date= build_date_for(project)
+  .url= project.url
+  .email= project.email
+
+  .last_build= render :partial => "shared/build", :locals => {:build => build} unless build.nil?
+
+= link_to I18n.t(:edit),     edit_project_path(project)
+= link_to I18n.t(:build),    project_builds_path(project), :method => :post
+= link_to I18n.t(:specs),    specs_path(project.name)
+= link_to I18n.t(:features), features_path(project.name)
+= link_to I18n.t(:metrics),  metrics_path(project.name)

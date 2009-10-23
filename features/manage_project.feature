@@ -17,3 +17,11 @@ Feature: Manage projects
     And I press "Save Project"
     Then I should see /Bluepump/
     And I should see /gitFake/
+
+  Scenario: Build project
+    Given I have a project
+    And I am on the project page
+    When I follow "build"
+    Then a new build should be created
+    And I should see the author of the build
+    And I should see tha name of the project

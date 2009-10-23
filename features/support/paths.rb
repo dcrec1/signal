@@ -12,7 +12,9 @@ module NavigationHelpers
       '/'
     when /the new projects page/
       new_project_path
-  when /the edit project page/
+    when /the project page/
+      project_path @project
+    when /the edit project page/
       edit_project_path @project
 
 
