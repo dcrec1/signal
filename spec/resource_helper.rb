@@ -193,21 +193,6 @@ def should_behave_like_resource(opts = {})
         assigns[model].should equal(mocked_model)
       end if formats_include_html(opts)
     end
-
-    describe "with invalid parameters" do
-      it "assigns a newly created but unsaved #{model} as @#{model}" do
-        clazz.stub!(:new).with({'these' => 'parameters'}).and_return(mocked_model(:save => false))
-        post :create, {model => {:these => 'parameters'}}.merge(parameters)
-        assigns[model].should equal(mocked_model)
-      end if formats_include_html(opts)
-
-      it "re-renders the 'new' template" do
-        clazz.stub!(:new).and_return(mocked_model(:save => false))
-        post :create, {model => {}}.merge(parameters)
-        response.should render_template('new')
-      end if formats_include_html(opts)
-    end
-
   end if should_show(opts, :create)
 
   describe "PUT update" do
