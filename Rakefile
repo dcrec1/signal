@@ -15,4 +15,4 @@ rescue Exception => e
   puts e
 end
 
-task :build => [:'db:migrate', :spec, :'metrics:all']
+task :build => [:'db:migrate', :spec, :cucumber, :'metrics:all']
