@@ -204,7 +204,7 @@ def should_behave_like_resource(opts = {})
       it "re-renders the 'new' template" do
         clazz.stub!(:new).and_return(mocked_model(:save => false))
         post :create, {model => {}}.merge(parameters)
-        response.should render_template('create')
+        response.should render_template('new')
       end if formats_include_html(opts)
     end
 
