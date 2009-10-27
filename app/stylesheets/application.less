@@ -28,43 +28,42 @@ a {
   line-height: 50px;
 }
 
-.project > .name, .url, .email {
-  font-size: 50px;
-  line-height: 60px;
-}
-
-h1 a {
-  font-size: 100px;
-  line-height: 120px;
-}
-
 h1 {
   line-height: 100px;
+  a {
+    font-size: 100px;
+    line-height: 120px;
+  }
 }
 
-.project.success, .project.failure {
+.success, .failure {
   padding: 5px;
   padding-left: 10px;
   line-height: 50px;
 }
 
-.project > * {
-  display: inline;
+.project {
+  > .name, .url, .email {
+    font-size: 50px;
+    line-height: 60px;
+    display: inline;
+  }
+
+  > .date {
+    padding-left: 10px;
+    font-size: 25px;
+    display: inline;
+  }
+
+  .url {
+    display: block;
+  }
 }
 
-.build > * {
+.build > *, .deploy > * {
   font-size: 40px;
   line-height: 50px;
   text-align: right;
-}
-
-.project > .url {
-  display: block;
-}
-
-.project > .date {
-  padding-left: 10px;
-  font-size: 25px;
 }
 
 .success {

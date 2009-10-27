@@ -25,3 +25,11 @@ Feature: Manage projects
     Then a new build should be created
     And I should see the author of the build
     And I should see tha name of the project
+
+  Scenario: Deploy Project
+    Given I have a project
+    And I am on the project page
+    When I follow "deploy"
+    Then a new deploy should be created
+    And I should see the output of the deploy
+    And I should see tha name of the project

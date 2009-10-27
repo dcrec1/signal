@@ -7,7 +7,11 @@ Then /^a new project should be created$/ do
 end
 
 Then /^a new build should be created$/ do
-  @build = Build.first
+  @build = @subject = Build.first
+end
+
+Then /^a new deploy should be created$/ do
+  @deploy = @subject = Deploy.first
 end
 
 Then /^I should see the author of the build$/ do
@@ -15,5 +19,9 @@ Then /^I should see the author of the build$/ do
 end
 
 Then /^I should see tha name of the project$/ do
-  response.should contain(@build.project.name)
+  response.should contain(@subject.project.name)
+end
+
+Then /^I should see the output of the deploy$/ do
+  response.should contain(@deploy.output)
 end

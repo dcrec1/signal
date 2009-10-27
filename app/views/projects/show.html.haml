@@ -1,1 +1,2 @@
-= render :partial => "shared/project", :locals => { :project => @project, :build => @project.builds.last }
+- render :layout => "shared/project", :locals => { :project => @project } do
+  = render :partial => "shared/build", :locals => { :build => @project.builds.last } unless @project.builds.empty?

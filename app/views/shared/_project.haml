@@ -3,7 +3,7 @@
   .url= project.url
   .email= project.email
 
-  .last_build= render :partial => "shared/build", :locals => {:build => build} unless build.nil?
+  = yield
 
 = link_to I18n.t(:edit),     edit_project_path(project)
 = link_to I18n.t(:build),    project_builds_path(project), :method => :post

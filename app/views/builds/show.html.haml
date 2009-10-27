@@ -1,1 +1,2 @@
-= render :partial => "shared/project", :locals => { :project => @build.project, :build => @build }
+- render :layout => "shared/project", :locals => { :project => @build.project } do
+  = render :partial => "shared/build", :locals => { :build => @build }
