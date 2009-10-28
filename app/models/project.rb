@@ -39,16 +39,19 @@ class Project < ActiveRecord::Base
   end
 
   def rake_build
-    result = run "rake build -N RAILS_ENV=test >>"
-    return result, File.open(log_path).read
+    rake "build -N RAILS_ENV=test >>"
   end
 
   def rake_deploy
-    result = run "rake inploy:remote:update >"
-    return result, File.open(log_path).read
+    rake "inploy:remote:update >"
   end
 
   private
+
+  def rake(cmd)
+    result = run "rake #{cmd}"
+    return result, File.open(log_path).read
+  end
 
   def path
     "#{BASE_PATH}/#{name}"
