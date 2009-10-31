@@ -2,8 +2,10 @@ class Project < ActiveRecord::Base
   BASE_PATH = "#{RAILS_ROOT}/public/projects"
 
   has_friendly_id :name
+  before_update :rename_directory
 
   validates_presence_of :name, :url, :email
+
   has_many :builds
   has_many :deploys
 
@@ -11,7 +13,7 @@ class Project < ActiveRecord::Base
     execute "cd #{BASE_PATH} && git clone #{url} #{name}"
     run "rake inploy:local:setup >"
   end
-
+  
   def status
     builds.last.try(:status) || ''
   end
@@ -29,11 +31,15 @@ class Project < ActiveRecord::Base
   end
 
   protected
+  
+  def rename_directory
+    execute "cd #{BASE_PATH} && mv #{name_was} #{name}" if self.name_changed?
+  end
 
   def update_code
     run "git pull origin master >"
   end
-
+  
   def last_commit
     Git.open(path).log.first
   end
