@@ -33,7 +33,7 @@ class Project < ActiveRecord::Base
   protected
   
   def rename_directory
-    execute "cd #{BASE_PATH} && mv #{name_was} #{name}" if self.name_changed?
+    execute "cd #{BASE_PATH} && mv #{name_was} #{name}" #if self.name_changed?
   end
 
   def update_code

@@ -57,12 +57,22 @@ describe Project do
     date = Time.now
     Project.new(:builds => [Build.new :created_at => date]).last_builded_at.should eql(date)
   end
-
-  it "should rename the directory" do
-    project = Project.new(:name => "project1",:url => "git://social", :email => "fake@mouseoverstudio.com")
-    project.save
-    expect_for "cd #{Project::BASE_PATH} && mv project1 project2"
-    project.update_attributes(:name => "project2") 
+  
+  context "on update" do
+    before :each do
+      success_on_command
+      @project = Project.create! :name => "project1",:url => "git://social", :email => "fake@mouseoverstudio.com"
+    end
+    
+    it "should rename the directory when the name changes" do
+      expect_for "cd #{Project::BASE_PATH} && mv project1 project2"
+      @project.update_attributes :name => "project2"
+    end
+    
+    it "should not rename the directory when the name doesn't change" do
+      dont_accept "cd #{Project::BASE_PATH} && mv project1 project2"
+      @project.update_attributes :email => "fak2@faker.com"
+    end
   end
 
   it "should return nil as last build date when no builds exists" do

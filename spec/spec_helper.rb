@@ -44,6 +44,10 @@ def expect_for(command)
   Kernel.should_receive(:system).with command
 end
 
+def dont_accept(command)
+  Kernel.should_not_receive(:system).with command
+end
+
 def on_command_return(result)
   Kernel.stub!(:system).and_return(result)
 end
