@@ -8,9 +8,5 @@ class ProjectsController < InheritedResources::Base
 
   def status
     @projects = Project.all
-    respond_to do |format|
-      format.html
-      format.xml
-    end
   end
 end
