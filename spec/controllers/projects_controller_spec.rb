@@ -16,9 +16,14 @@ describe ProjectsController do
       Project.stub!(:all).and_return(@projects = [Project.new])
     end
 
-    it "should return the status html panel for all the projects" do
+    it "with html format should render status.html" do
       get :status
-      response.should render_template("shared/_projects")
+      response.should render_template("status.html")
+    end
+    
+    it "with xml format should render status.xml" do
+      get :status, :format => 'xml'
+      response.should render_template("status.xml")
     end
 
     it "should assign all the projects to @projects" do
