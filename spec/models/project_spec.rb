@@ -70,7 +70,7 @@ describe Project do
     end
     
     it "should not rename the directory when the name doesn't change" do
-      dont_accept "cd #{Project::BASE_PATH} && mv project1 project2"
+      dont_accept "cd #{Project::BASE_PATH} && mv project1 project1"
       @project.update_attributes :email => "fak2@faker.com"
     end
   end
