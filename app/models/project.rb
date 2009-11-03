@@ -9,11 +9,13 @@ class Project < ActiveRecord::Base
   has_many :builds
   has_many :deploys
 
+  default_value_for :branch, "master"
+
   def after_create
     execute "cd #{BASE_PATH} && git clone #{url} #{name}"
     run "rake inploy:local:setup >"
   end
-  
+
   def status
     builds.last.try(:status)
   end
@@ -31,7 +33,7 @@ class Project < ActiveRecord::Base
   end
 
   protected
-  
+
   def rename_directory
     execute "cd #{BASE_PATH} && mv #{name_was} #{name}" if self.name_changed?
   end
@@ -39,7 +41,7 @@ class Project < ActiveRecord::Base
   def update_code
     run "git pull origin master >"
   end
-  
+
   def last_commit
     Git.open(path).log.first
   end

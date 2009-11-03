@@ -52,23 +52,23 @@ describe Project do
       @project.status.should be_nil
     end
   end
-  
+
   it "should return when was the last build" do
     date = Time.now
     Project.new(:builds => [Build.new :created_at => date]).last_builded_at.should eql(date)
   end
-  
+
   context "on update" do
     before :each do
       success_on_command
       @project = Project.create! :name => "project1",:url => "git://social", :email => "fake@mouseoverstudio.com"
     end
-    
+
     it "should rename the directory when the name changes" do
       expect_for "cd #{Project::BASE_PATH} && mv project1 project2"
       @project.update_attributes :name => "project2"
     end
-    
+
     it "should not rename the directory when the name doesn't change" do
       dont_accept "cd #{Project::BASE_PATH} && mv project1 project1"
       @project.update_attributes :email => "fak2@faker.com"
@@ -88,5 +88,9 @@ describe Project do
     project = Project.new
     project.deploys.should_receive(:create)
     project.deploy
+  end
+
+  it "should use master as the default branch" do
+    subject.branch.should eql("master")
   end
 end
