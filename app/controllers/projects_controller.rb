@@ -8,5 +8,9 @@ class ProjectsController < InheritedResources::Base
 
   def status
     @projects = Project.all
+    respond_to do |format|
+      format.html { render :partial => "shared/projects" }
+      format.xml
+    end
   end
 end

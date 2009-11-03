@@ -16,9 +16,9 @@ describe ProjectsController do
       Project.stub!(:all).and_return(@projects = [Project.new])
     end
 
-    it "with html format should render status.html" do
+    it "with html format should render projects template" do
       get :status
-      response.should render_template("status.html")
+      response.should render_template("shared/_projects")
     end
     
     it "with xml format should render status.xml" do
