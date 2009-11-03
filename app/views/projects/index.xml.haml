@@ -1,3 +1,0 @@
-%Projects
-  - for project in @projects
-    %Project{:name => project.name, :activity => 'Sleeping', :lastBuildStatus => project.status.capitalize, :lastBuildTime => project.builds.last.created_at, :webUrl => project_path(project) }

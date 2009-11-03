@@ -15,7 +15,7 @@ class Project < ActiveRecord::Base
   end
   
   def status
-    builds.last.try(:status) || ''
+    builds.last.try(:status)
   end
 
   def build
