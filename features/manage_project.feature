@@ -33,3 +33,7 @@ Feature: Manage projects
     Then a new deploy should be created
     And I should see the output of the deploy
     And I should see tha name of the project
+    
+  Scenario: Get projects status in XML format
+    When I request '/projects/status.xml'
+    Then I should get a XML document

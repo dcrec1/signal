@@ -2,6 +2,10 @@ Given /^I have a project$/ do
   @project = Project.create! :name => "whatever", :url => "fake", :email => "fake2"
 end
 
+When /^I request '(.*)'$/ do |path|
+  visit path
+end
+
 Then /^a new project should be created$/ do
   Project.count.should == 1
 end
@@ -24,4 +28,8 @@ end
 
 Then /^I should see the output of the deploy$/ do
   response.should contain(@deploy.output)
+end
+
+Then /^I should get a XML document$/ do
+  response.body.should_not be_empty
 end

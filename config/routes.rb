@@ -1,5 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
-  map.projects_status "/projects/status", :controller => :projects, :action => :status
+  map.projects_status "/projects/status.:format", :controller => :projects, :action => :status
   map.resources :projects do |project|
     project.resources :builds
     project.resources :deploys
