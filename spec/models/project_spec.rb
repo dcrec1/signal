@@ -15,8 +15,8 @@ describe Project do
       @project = Project.new :name => "social", :url => "git://social", :email => "fake@mouseoverstudio.com"
     end
 
-    it "should clone a repository" do
-      expect_for "cd #{Project::BASE_PATH} && git clone #{@project.url} #{@project.name}"
+    it "should clone a repository without the history" do
+      expect_for "cd #{Project::BASE_PATH} && git clone --depth 1 #{@project.url} #{@project.name}"
       @project.save
     end
 

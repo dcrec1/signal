@@ -12,7 +12,7 @@ class Project < ActiveRecord::Base
   default_value_for :branch, "master"
 
   def after_create
-    execute "cd #{BASE_PATH} && git clone #{url} #{name}"
+    execute "cd #{BASE_PATH} && git clone --depth 1 #{url} #{name}"
     run "rake inploy:local:setup >"
   end
 
