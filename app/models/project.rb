@@ -39,7 +39,7 @@ class Project < ActiveRecord::Base
   end
 
   def update_code
-    run "git pull origin master >"
+    run "git pull origin #{branch} >"
   end
 
   def last_commit

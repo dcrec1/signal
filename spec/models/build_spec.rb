@@ -9,12 +9,12 @@ describe Build do
     before :each do
       fail_on_command
       File.stub!(:open).and_return(mock(Object, :read => "lorem ipsum"))
-      @project = Project.koujou
+      @project = Project.koujou_build :branch => "staging"
       build_repo_for @project
     end
 
-    it "should pull the repository" do
-      expect_for "cd #{@project.send :path} && git pull origin master > #{@project.send :log_path} 2>&1"
+    it "should pull the repository from the project branch" do
+      expect_for "cd #{@project.send :path} && git pull origin #{@project.branch} > #{@project.send :log_path} 2>&1"
       Build.create! :project => @project
     end
 
