@@ -13,7 +13,7 @@ class Project < ActiveRecord::Base
 
   def after_create
     execute "cd #{BASE_PATH} && git clone --depth 1 #{url} #{name}"
-    run "git checkout -b #{branch} origin/#{branch} >"
+    run "git checkout -b #{branch} origin/#{branch} >" unless branch.eql? "master"
     run "rake inploy:local:setup >>"
   end
 

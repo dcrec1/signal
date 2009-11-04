@@ -26,6 +26,12 @@ describe Project do
       @project.save
     end
 
+    it "should dont checkout the configured branch if it's master" do
+      branch = @project.branch
+      dont_accept "cd #{@project.send :path} && git checkout -b #{branch} origin/#{branch} > #{@project.send :log_path} 2>&1"
+      @project.save
+    end
+
     it "should run inploy:local:setup" do
       expect_for "cd #{@project.send :path} && rake inploy:local:setup >> #{@project.send :log_path} 2>&1"
       @project.save
