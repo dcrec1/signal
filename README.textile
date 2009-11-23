@@ -4,7 +4,7 @@ h2. INSTALLATION:
 
 <pre><code>git clone git://github.com/dcrec1/signal.git</code></pre>
 
-If your installing the application on a remote machine:
+If you are installing the application on a remote machine:
 
 2.  Copy config/deploy.rb.sample to config/deploy.rb
 
@@ -14,7 +14,7 @@ If your installing the application on a remote machine:
 
 <pre><code>rake inploy:remote:setup</code></pre>
 
-Or if youre installing the application in the local machine:
+Or if you are installing the application in the local machine:
 
 2. Setup the application
 
@@ -35,6 +35,10 @@ If you want to use somer other database than SQLite (recommended):
 7. Re-initialize the database:
 
 <pre><code>rake db:migrate RAILS_ENV=production</code></pre>
+
+If you're using Passenger on OS X, you may need edit the path:
+
+http://www.icoretech.org/2009/08/passenger-mod_rails-path-on-leopard-snow-leopard/
 
 h2. UPDATE
 
