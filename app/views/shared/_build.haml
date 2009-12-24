@@ -2,4 +2,4 @@
   .author= build.author
   .comment= build.comment
   .date= ago(build.created_at)
-  .output= build.output.gsub("\n", "<br>")
+  .output= .output= build.output.gsub("\n", "<br>").gsub("\e[0m", '</span>').gsub(/\e\[(\d+)m/, "<span class=\"color\\1\">")
