@@ -6,6 +6,6 @@ class Deploy < ActiveRecord::Base
 
   def before_validation_on_create
     return nil if project.nil?
-    self.success, self.output = project.rake_deploy
+    self.success, self.output = project.run_deploy
   end
 end

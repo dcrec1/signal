@@ -51,8 +51,8 @@ class Project < ActiveRecord::Base
     rake "build -N RAILS_ENV=test >>"
   end
 
-  def rake_deploy
-    rake "inploy:remote:update >"
+  def run_deploy
+    return run("#{self.deploy_command} >"), File.open(log_path).read
   end
 
   private

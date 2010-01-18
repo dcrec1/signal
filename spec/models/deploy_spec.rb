@@ -13,7 +13,7 @@ describe Deploy do
     end
 
     it "should deploy the project raking inploy:remote:update" do
-      expect_for "cd #{@project.send :path} && rake inploy:remote:update > #{@project.send :log_path} 2>&1"
+      expect_for "cd #{@project.send :path} && #{@project.deploy_command} > #{@project.send :log_path} 2>&1"
       Deploy.create! :project => @project
     end
 
