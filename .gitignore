@@ -1,4 +1,7 @@
 .DS_Store
+tags
+*.swp
+*.swo
 log/*
 tmp/*
 db/*.sqlite3

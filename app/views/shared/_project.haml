@@ -8,7 +8,7 @@
 
 = link_to I18n.t(:edit),     edit_project_path(project)
 = link_to I18n.t(:build),    project_builds_path(project), :method => :post
-= link_to I18n.t(:specs),    specs_path(project.name)
-= link_to I18n.t(:features), features_path(project.name)
-= link_to I18n.t(:metrics),  metrics_path(project.name)
+= link_to I18n.t(:specs),    specs_path(project.name) if File.exists?("#{RAILS_ROOT}/public/projects/#{project.name}/doc/specs.html")
+= link_to I18n.t(:features), features_path(project.name) if File.exists?("#{RAILS_ROOT}/public/projects/#{project.name}/doc/features.html")
+= link_to I18n.t(:metrics),  metrics_path(project.name) if File.exists?("#{RAILS_ROOT}/public/projects/#{project.name}/tmp/metric_fu/output/index.html")
 = link_to I18n.t(:deploy),   project_deploys_path(project), :method => :post
