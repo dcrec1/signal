@@ -12,7 +12,7 @@ Rails::Initializer.run do |config|
   config.gem 'less'
   config.gem 'haml'
   config.gem 'mleung-koujou', :lib => 'koujou', :source => 'http://gems.github.com'
-  config.gem 'schacon-git', :lib => 'git', :source => 'http://gems.github.com'
+  config.gem 'git'
 
   config.time_zone = 'UTC'
 
