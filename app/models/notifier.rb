@@ -16,5 +16,6 @@ class Notifier < ActionMailer::Base
     recipients project.email
     subject "[Signal] #{project.name} #{status}"
     body :build => build, :project => project
+    content_type "text/html"
   end
 end

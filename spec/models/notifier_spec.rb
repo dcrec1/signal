@@ -22,6 +22,10 @@ describe Notifier do
     it "should deliver from signal@MAILER_DOMAIN" do
       @email.should deliver_from("signal@#{MAILER['domain']}")
     end
+
+    it "should deliver as HTML with chartset UTF-8" do
+      @email.header['content-type'].to_s.should eql("text/html; charset=utf-8")
+    end
   end
 
   context "delivering fix notification" do
