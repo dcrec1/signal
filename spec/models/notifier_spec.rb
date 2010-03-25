@@ -4,11 +4,15 @@ describe Notifier do
   include EmailSpec::Helpers
   include EmailSpec::Matchers
 
+  before :all do
+    @address = "all@mouseoverstudio.com"
+    @name = "rails"
+    @build = Build.new(:project => Project.new(:email => @address, :name => @name), :output => '')
+  end
+
   context "delivering fail notification" do
     before :all do
-      @address = "all@mouseoverstudio.com"
-      @name = "rails"
-      @email = Notifier.deliver_fail_notification Build.new(:project => Project.new(:email => @address, :name => @name))
+      @email = Notifier.deliver_fail_notification @build 
     end
 
     it "should deliver to project email" do
@@ -30,9 +34,7 @@ describe Notifier do
 
   context "delivering fix notification" do
     before :all do
-      @address = "all@mouseoverstudio.com"
-      @name = "rails"
-      @email = Notifier.deliver_fix_notification Build.new(:project => Project.new(:email => @address, :name => @name))
+      @email = Notifier.deliver_fix_notification @build 
     end
 
     it "should deliver to project email" do

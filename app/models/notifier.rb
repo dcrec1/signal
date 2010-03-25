@@ -1,4 +1,6 @@
 class Notifier < ActionMailer::Base
+  helper :projects
+  helper :builds
 
   def fail_notification(build)
     deliver build, "failed"

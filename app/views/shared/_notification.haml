@@ -1,0 +1,18 @@
+%html
+  %head
+    %style
+      :plain
+        .color30 { color: #333333; }
+        .color31 { color: #ee3333; }
+        .color32 { color: #33ee33; }
+        .color33 { color: #eeee33; }
+        .color34 { color: #3333ee; }
+        .color35 { color: #ee33ee; }
+        .color36 { color: #33eeee; }
+        .color37 { color: #ffffff; }
+  %body
+    %h2 Comment
+    = build.comment
+
+    %h2 Output
+    = format_output(build.output)
