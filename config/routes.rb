@@ -9,4 +9,5 @@ ActionController::Routing::Routes.draw do |map|
   map.metrics  "/projects/:name/tmp/metric_fu/output/index.html", :controller => nil
   map.specs    "/projects/:name/doc/specs.html",                  :controller => nil
   map.features "/projects/:name/doc/features.html",               :controller => nil
+  map.war      "/projects/:name/target/:name.war",                :controller => nil
 end
