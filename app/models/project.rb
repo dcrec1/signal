@@ -33,6 +33,10 @@ class Project < ActiveRecord::Base
     builds.last.try(:created_at)
   end
 
+  def has_file?(file)
+    File.exists?("#{path}/#{file}")  
+  end
+
   protected
 
   def rename_directory

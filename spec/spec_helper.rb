@@ -16,6 +16,9 @@ require File.expand_path(File.dirname(__FILE__) + '/shared_examples')
 
 require "email_spec/helpers"
 require "email_spec/matchers"
+require 'fakefs'
+
+FakeFS.activate!
 
 def random_word
   Faker::Lorem.words(1).first
@@ -62,4 +65,8 @@ end
 
 def file_exists(file, opts = {})
   File.open(file, 'w') { |f| f.write(opts[:content] || '') }
+end
+
+def file_doesnt_exists(file)
+  File.delete file
 end

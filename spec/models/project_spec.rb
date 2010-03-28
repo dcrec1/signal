@@ -105,4 +105,16 @@ describe Project do
   it "should use master as the default branch" do
     subject.branch.should eql("master")
   end
+
+  context "on has_file?" do
+    it "should return true if the project has the file path" do
+      file_exists(subject.send(:path) + '/doc/specs.html')
+      subject.has_file?("doc/specs.html").should be_true
+    end
+
+    it "should return false if the project doesnt has the file path" do
+      file_doesnt_exists(subject.send(:path) + '/doc/specs.html')
+      subject.has_file?("doc/specs.html").should be_false
+    end
+  end
 end
