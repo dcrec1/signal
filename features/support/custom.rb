@@ -1,3 +1,5 @@
+require 'spec/mocks'
+
 Before do
   Kernel.stub!(:system)
   repo = Git.open RAILS_ROOT

@@ -19,17 +19,17 @@ Then /^a new deploy should be created$/ do
 end
 
 Then /^I should see the author of the build$/ do
-  response.should contain(@build.author)
+  page.should have_xpath('//*', :text => @build.author)
 end
 
 Then /^I should see tha name of the project$/ do
-  response.should contain(@subject.project.name)
+  page.should have_xpath('//*', :text => @subject.project.name)
 end
 
 Then /^I should see the output of the deploy$/ do
-  response.should contain(@deploy.output)
+  page.should have_xpath('//*', :text => @deploy.output)
 end
 
 Then /^I should get a XML document$/ do
-  response.body.should_not be_empty
+  page.body.should_not be_empty
 end
