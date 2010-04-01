@@ -41,6 +41,9 @@ Feature: Manage projects
   Scenario: RSS
     Given I have a project
     When I request '/'
-    Then I should receive a link for the feed
-    When I request 'http://localhost:3000/projects.rss' 
+    Then I should receive a link for the feed of all projects
+    And I should receive a link for the feed of the project
+    When I request '/projects.rss' 
+    Then I should see the name of the project
+    When I request '/projects/1.rss'
     Then I should see the name of the project

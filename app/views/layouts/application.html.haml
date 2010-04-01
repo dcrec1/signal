@@ -5,7 +5,7 @@
     %title= Signal
     = javascript_include_merged :base
     = stylesheet_link_merged :base
-    = auto_discovery_link_tag :rss, root_path(:format => :rss)
+    = auto_discovery_link_tag :rss, root_path(:format => :rss), :title => "Signal"
   %body
     %h1.header= link_to "Signal", root_path
     = yield
