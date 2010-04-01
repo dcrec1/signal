@@ -24,7 +24,7 @@ Feature: Manage projects
     When I follow "build"
     Then a new build should be created
     And I should see the author of the build
-    And I should see tha name of the project
+    And I should see the name of the project
 
   Scenario: Deploy Project
     Given I have a project
@@ -32,8 +32,15 @@ Feature: Manage projects
     When I follow "deploy"
     Then a new deploy should be created
     And I should see the output of the deploy
-    And I should see tha name of the project
+    And I should see the name of the project
     
   Scenario: Get projects status in XML format
     When I request '/projects/status.xml'
     Then I should get a XML document
+
+  Scenario: RSS
+    Given I have a project
+    When I request '/'
+    Then I should receive a link for the feed
+    When I request 'http://localhost:3000/projects.rss' 
+    Then I should see the name of the project

@@ -6,7 +6,7 @@ When /^I request '(.*)'$/ do |path|
   visit path
 end
 
-Then /^a new project should be created$/ do
+When /^a new project should be created$/ do
   Project.count.should == 1
 end
 
@@ -22,8 +22,8 @@ Then /^I should see the author of the build$/ do
   page.should have_xpath('//*', :text => @build.author)
 end
 
-Then /^I should see tha name of the project$/ do
-  page.should have_xpath('//*', :text => @subject.project.name)
+Then /^I should see the name of the project$/ do
+  page.should have_xpath('//*', :text => @project.name)
 end
 
 Then /^I should see the output of the deploy$/ do
@@ -32,4 +32,8 @@ end
 
 Then /^I should get a XML document$/ do
   page.body.should_not be_empty
+end
+
+Then /^I should receive a link for the feed$/ do
+  page.should have_xpath('//link[@type="application/rss+xml"]')
 end
