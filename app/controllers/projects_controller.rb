@@ -1,5 +1,5 @@
 class ProjectsController < InheritedResources::Base
-  respond_to :html, :xml
+  respond_to :html, :xml, :rss
   
   def build
     Project.find(params[:project_id]).send_later :build

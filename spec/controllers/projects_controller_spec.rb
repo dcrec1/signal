@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe ProjectsController do
-  should_behave_like_resource :formats => [:html, :xml]
+  should_behave_like_resource :formats => [:html, :xml, :rss]
 
   context "responding to build" do
     it "should build a project in the background" do
