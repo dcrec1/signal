@@ -11,8 +11,7 @@
         .color36 { color: #33eeee; }
         .color37 { color: #ffffff; }
   %body
-    %h2 Comment
-    = build.comment
+    = "#{build.author}: #{build.comment}"
 
     %h2 Output
     = format_output(build.output)
