@@ -11,7 +11,7 @@ MAILER = YAML.load_file("#{RAILS_ROOT}/config/mailer.yml")
 Rails::Initializer.run do |config|
   config.gem 'less'
   config.gem 'haml'
-  config.gem 'mleung-koujou', :lib => 'koujou', :source => 'http://gems.github.com'
+  config.gem 'koujou'
   config.gem 'git'
 
   config.time_zone = 'UTC'
