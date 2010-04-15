@@ -8,6 +8,12 @@ shared_examples_for "local setup" do
     expect_command "rake db:migrate RAILS_ENV=#{subject.environment}"
     subject.local_setup
   end
+  
+  it "should not run migrations if it's on skip_steps" do
+    subject.skip_steps = ['migrate_database']
+    dont_accept_command "rake db:migrate RAILS_ENV=#{subject.environment}"
+    subject.local_setup
+  end
 
   it "should run migration after installing gems" do
     expect_command("rake gems:install RAILS_ENV=#{subject.environment}").ordered
@@ -21,7 +27,7 @@ shared_examples_for "local setup" do
     subject.local_setup
   end
 
-  it "should run init.sh if doesnt exists" do
+  it "should not run init.sh if doesnt exists" do
     file_doesnt_exists "init.sh"
     dont_accept_command "./init.sh"
     subject.local_setup
@@ -58,6 +64,13 @@ shared_examples_for "local setup" do
     expect_command "rake gems:install RAILS_ENV=#{subject.environment}"
     subject.local_setup
   end
+  
+  it "should not install gems if it's on skip_steps" do
+    subject.environment = "en3"
+    subject.skip_steps = ['install_gems']
+    dont_accept_command "rake gems:install RAILS_ENV=#{subject.environment}"
+    subject.local_setup
+  end
 
   it "should copy config/*.sample files before installing gems" do
     file_exists "config/gems.yml.sample"
@@ -66,6 +79,16 @@ shared_examples_for "local setup" do
       subject.local_setup
     rescue Exception
       File.exists?("config/gems.yml").should be_true
+    end
+  end
+
+  it "should copy config/*.sample files before creating the databases" do
+    file_exists "config/stars.yml.sample"
+    subject.stub!(:rake).with("db:create RAILS_ENV=#{subject.environment}").and_raise(Exception.new)
+    begin
+      subject.local_setup
+    rescue Exception
+      File.exists?("config/stars.yml").should be_true
     end
   end
 
@@ -92,6 +115,12 @@ shared_examples_for "local setup" do
     expect_command("rake asset:packager:build_all").ordered
     subject.local_setup
   end
+
+  it "should create the database" do
+    subject.environment = environment = "whatever"
+    expect_command("rake db:create RAILS_ENV=#{environment}")
+    subject.local_setup
+  end
 end
 
 shared_examples_for "remote update" do
@@ -100,7 +129,27 @@ shared_examples_for "remote update" do
   end
 
   it "should run inploy:local:update task in the server" do
-    expect_command "ssh #{@ssh_opts} #{@user}@#{@host} 'cd #{@path}/#{@application} && rake inploy:local:update'"
+    subject.environment = "env10"
+    expect_command "ssh #{@ssh_opts} #{@user}@#{@host} 'cd #{@path}/#{@application} && rake inploy:local:update environment=#{subject.environment}'"
+    subject.remote_update
+  end
+
+  it "should ssh with a configured port if exists" do
+    subject.port = 3892
+    expect_command "ssh #{@ssh_opts} -p 3892 #{@user}@#{@host} 'cd #{@path}/#{@application} && rake inploy:local:update environment=#{subject.environment}'"
+    subject.remote_update
+  end
+
+  it "should ssh with a port even if ssh options are not specified" do
+    subject.ssh_opts = nil
+    subject.port = 3892
+    expect_command "ssh  -p 3892 #{@user}@#{@host} 'cd #{@path}/#{@application} && rake inploy:local:update environment=#{subject.environment}'"
+    subject.remote_update
+  end
+
+  it "should pass skip_steps params to local update" do
+    subject.skip_steps = skip_steps = %w(migrate_dataabse gems_install)
+    expect_command "ssh #{@ssh_opts} #{@user}@#{@host} 'cd #{@path}/#{@application} && rake inploy:local:update environment=#{@environment} skip_steps=#{skip_steps.join(',')}'"
     subject.remote_update
   end
 end
@@ -108,6 +157,12 @@ end
 shared_examples_for "local update" do
   before :each do
     stub_tasks
+    @environment ||= "production"
+  end
+
+  it "should init submodules" do
+    expect_command "git submodule update --init"
+    subject.local_update
   end
 
   it "should run the migrations for the environment" do
@@ -120,8 +175,36 @@ shared_examples_for "local update" do
     subject.local_update
   end
 
-  it "should clean the public cache" do
+  it "should clean the public/cache by default" do
     expect_command "rm -R -f public/cache"
+    subject.local_update
+  end
+
+  it "should clean custom cache_dirs" do
+    subject.cache_dirs = ['my/cache', 'i/love/long/cache/paths']
+    subject.cache_dirs.each do |dir|
+      expect_command "rm -R -f #{dir}"
+    end
+    subject.local_update
+  end
+  
+  it "should not clean the cache if it's on skip_steps" do
+    subject.skip_steps = ['clear_cache']
+    subject.cache_dirs.each do |dir|
+      dont_accept_command "rm -R -f #{dir}"
+    end
+    subject.local_update
+  end
+
+  it "should clean public assets if jammit is installed" do
+    file_exists "config/assets.yml"
+    expect_command "rm -R -f public/assets"
+    subject.local_update
+  end
+
+  it "should not clean public assets if jammit is not installed" do
+    file_doesnt_exists "config/assets.yml"
+    dont_accept_command "rm -R -f public/assets"
     subject.local_update
   end
 
@@ -169,7 +252,40 @@ shared_examples_for "local update" do
 
   it "should notify hoptoad" do
     subject.environment = "env8"
-    expect_command("rake hoptoad:deploy TO=#{subject.environment} REPO=#{subject.repository} REVISION=#{`git log | head -1 | cut -d ' ' -f 2`}").ordered
+    expect_command("rake hoptoad:deploy RAILS_ENV=#{subject.environment} TO=#{subject.environment} REPO=#{subject.repository} REVISION=#{`git log | head -1 | cut -d ' ' -f 2`}").ordered
+    subject.local_update
+  end
+
+  it "should notify new relic rpm if exists as plugin" do
+    file_exists "vendor/plugins/newrelic_rpm/bin/newrelic_cmd"
+    expect_command("ruby vendor/plugins/newrelic_rpm/bin/newrelic_cmd deployments")
+    subject.local_update
+  end
+
+  it "should not notify new relic rpm if doesn't exists as plugin" do
+    file_doesnt_exists "vendor/plugins/newrelic_rpm/bin/newrelic_cmd"
+    dont_accept_command("ruby vendor/plugins/newrelic_rpm/bin/newrelic_cmd deployments")
+    subject.local_update
+  end
+
+  it "should execute before_restarting_server hook" do
+    subject.before_restarting_server do
+      rake "test"
+    end
+    expect_command("rake test").ordered
+    expect_command("touch tmp/restart.txt").ordered
+    subject.local_update
+  end
+
+  it "should update crontab with whenever if the file config/schedule.rb exists" do
+    file_exists "config/schedule.rb"
+    expect_command "whenever --update-crontab #{subject.application} --set 'environment=#{subject.environment}'"
+    subject.local_update
+  end
+
+  it "should not update crontab with whenever if the file config/schedule.rb doesn't exists" do
+    file_doesnt_exists "config/schedule.rb"
+    dont_accept_command "whenever --update-crontab #{subject.application} --set 'environment=#{subject.environment}'"
     subject.local_update
   end
 end

@@ -2,8 +2,14 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 describe Inploy::Deploy do
 
-  def expect_setup_with(branch)
-    expect_command "ssh #{@ssh_opts} #{@user}@#{@host} 'cd #{@path} && git clone --depth 1 #{@repository} #{@application} && cd #{@application} && git checkout -f -b #{branch} origin/#{branch} && git submodule update --init && rake inploy:local:setup'"
+  def expect_setup_with(branch, environment = 'production', skip_steps = nil)
+    if branch.eql? 'master'
+      checkout = ""
+    else
+      checkout = "&& $(git branch | grep -vq #{branch}) && git checkout -f -b #{branch} origin/#{branch}"
+    end
+    skip_steps_cmd = " skip_steps=#{skip_steps.join(',')}" unless skip_steps.nil?
+    expect_command "ssh #{@ssh_opts} #{@user}@#{@host} 'cd #{@path} && git clone --depth 1 #{@repository} #{@application} && cd #{@application} #{checkout} && rake inploy:local:setup environment=#{environment}#{skip_steps_cmd}'"
   end
 
   def setup(subject)
@@ -14,6 +20,23 @@ describe Inploy::Deploy do
     subject.path = @path = '/city'
     subject.repository = @repository = 'git://'
     subject.application = @application = "robin"
+  end
+
+  context "when executing a command" do
+    before :each do
+      mute subject
+    end
+
+    it "should include sudo when true" do 
+      expect_command "ls"
+      subject.run "ls"
+    end
+
+    it "should not include sudo when false" do
+      subject.sudo = true
+      expect_command "sudo ls"
+      subject.run "ls"
+    end
   end
 
   it "should be extendable" do
@@ -32,6 +55,12 @@ describe Inploy::Deploy do
     subject.remote_setup
   end
 
+  it "should use production as default environment" do
+    setup subject
+    expect_command "rake db:migrate RAILS_ENV=production"
+    subject.local_setup
+  end
+
   it "should use production as the default environment" do
     subject.environment.should eql("production")
   end
@@ -41,21 +70,34 @@ describe Inploy::Deploy do
       setup subject
 			subject.ssh_opts = @ssh_opts = "-A"
 			subject.branch = @branch = "onions"
+			subject.environment = @environment = "staging"
     end
 
     context "on remote setup" do
-      it "should clone the repository with the application name, init submodules and execute local setup" do
-        expect_setup_with @branch
+      it "should clone the repository with the application name, checkout the branch and execute local setup" do
+        expect_setup_with @branch, @environment
         subject.remote_setup
       end
 
-      it "should dont execute init.sh if doesnt exists" do
+      it "should not execute init.sh if doesnt exists" do
         dont_accept_command "ssh #{@user}@#{@host} 'cd #{@path}/#{@application} && .init.sh'"
+        subject.remote_setup
+      end
+
+      it "should pass skip_steps params to local setup" do
+        subject.skip_steps = %w(migrate_database gems_install) 
+        expect_setup_with @branch, @environment, subject.skip_steps
         subject.remote_setup
       end
     end
 
     context "on local setup" do
+
+      it "should use staging for the environment" do
+        expect_command "rake db:migrate RAILS_ENV=staging"
+        subject.local_setup
+      end
+
       it_should_behave_like "local setup"
     end
 
@@ -65,10 +107,11 @@ describe Inploy::Deploy do
       it "should exec the commands in all hosts" do
         subject.hosts = ['host0', 'host1', 'host2']
         3.times.each do |i|
-          expect_command "ssh #{@ssh_opts} #{@user}@host#{i} 'cd #{@path}/#{@application} && rake inploy:local:update'"
+          expect_command "ssh #{@ssh_opts} #{@user}@host#{i} 'cd #{@path}/#{@application} && rake inploy:local:update environment=#{@environment}'"
         end
         subject.remote_update
       end
+
     end
 
     context "on local update" do
@@ -78,6 +121,14 @@ describe Inploy::Deploy do
       end
 
       it_should_behave_like "local update"
+    end
+
+    context "on remote install" do
+      it "should execute the code from the url specified by the parameter 'from'" do
+        url = 'http://fake.com/script'
+        expect_command "ssh #{@ssh_opts} #{@user}@#{@host} 'bash < <(wget -O- #{url})'"
+        subject.remote_install :from => url
+      end
     end
   end
 end

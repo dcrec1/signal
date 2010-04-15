@@ -10,6 +10,10 @@ begin
 rescue Exception
 end
 
+
+deploy.environment = ENV['environment'] || deploy.environment
+deploy.skip_steps = ENV['skip_steps'].split(',') unless ENV['skip_steps'].nil?
+
 namespace :inploy do
   namespace :local do
     desc "Local Setup"
@@ -24,14 +28,22 @@ namespace :inploy do
   end
 
   namespace :remote do
+    desc "Remote install"
+    task :install do
+      deploy.remote_install :from => ENV['from']
+    end
+
     desc "Remote Setup"
     task :setup do
       deploy.remote_setup
     end
 
     desc "Remote Update"
-    task :update do
+    task :update do 
       deploy.remote_update
     end
   end
+
+  desc "Alias to Remote Update"
+  task :up => "remote:update"
 end
