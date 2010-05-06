@@ -51,8 +51,9 @@ class Project < ActiveRecord::Base
     Git.open(path).log.first
   end
 
-  def rake_build
-    rake "build -N RAILS_ENV=test >>"
+  def run_build_command
+    result = run "#{build_command} -N RAILS_ENV=test >>"
+    return result, File.open(log_path).read
   end
 
   def run_deploy
@@ -60,11 +61,6 @@ class Project < ActiveRecord::Base
   end
 
   private
-
-  def rake(cmd)
-    result = run "rake #{cmd}"
-    return result, File.open(log_path).read
-  end
 
   def path
     "#{BASE_PATH}/#{name}"

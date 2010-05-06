@@ -9,6 +9,10 @@ describe Project do
     Project::BASE_PATH.should eql("#{RAILS_ROOT}/public/projects")
   end
 
+  it "should have default build_command as 'rake build'" do
+    subject.build_command.should eql("rake build")
+  end
+
   context "on creation" do
     before :each do
       success_on_command

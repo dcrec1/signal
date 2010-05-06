@@ -23,6 +23,12 @@ describe Build do
       Build.create! :project => @project
     end
 
+    it "should build the project executing the project's build command" do
+      @project.build_command = "rake test"
+      expect_for "cd #{@project.send :path} && rake test -N RAILS_ENV=test >> #{@project.send :log_path} 2>&1"
+      Build.create! :project => @project
+    end
+
     it "should save the log" do
       log = "Can't touch this!"
       File.stub!(:open).with(@project.send :log_path).and_return(mock(Object, :read => log))
