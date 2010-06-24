@@ -44,7 +44,7 @@ class Project < ActiveRecord::Base
   end
 
   def update_code
-    run "git pull origin #{branch} >"
+    run "git pull #{url} #{branch} >"
   end
 
   def last_commit

@@ -13,8 +13,8 @@ describe Build do
       build_repo_for @project
     end
 
-    it "should pull the repository from the project branch" do
-      expect_for "cd #{@project.send :path} && git pull origin #{@project.branch} > #{@project.send :log_path} 2>&1"
+    it "should pull the repository from the project url and branch" do
+      expect_for "cd #{@project.send :path} && git pull #{@project.url} #{@project.branch} > #{@project.send :log_path} 2>&1"
       Build.create! :project => @project
     end
 
