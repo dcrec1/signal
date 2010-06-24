@@ -1,72 +1,27 @@
 # This file is copied to ~/spec when you run 'ruby script/generate rspec'
 # from the project root directory.
+#
+
+require 'rubygems'
+require 'sqlite3'
+
 ENV["RAILS_ENV"] ||= 'test'
-require File.dirname(__FILE__) + "/../config/environment" unless defined?(RAILS_ROOT)
+require File.expand_path(File.join(File.dirname(__FILE__),'..','config','environment'))
 require 'spec/autorun'
 require 'spec/rails'
 
+# Uncomment the next line to use webrat's matchers
+#require 'webrat/integrations/rspec-rails'
+
+# Requires supporting files with custom matchers and macros, etc,
+# in ./support/ and its subdirectories.
+Dir[File.expand_path(File.join(File.dirname(__FILE__),'support','**','*.rb'))].each {|f| require f}
+
 Spec::Runner.configure do |config|
+  # If you're not using ActiveRecord you should remove these
+  # lines, delete config/database.yml and disable :active_record
+  # in your config/boot.rb
   config.use_transactional_fixtures = true
   config.use_instantiated_fixtures  = false
   config.fixture_path = RAILS_ROOT + '/spec/fixtures/'
-end
-
-require File.expand_path(File.dirname(__FILE__) + '/resource_helper')
-require File.expand_path(File.dirname(__FILE__) + '/shared_examples')
-
-require "email_spec/helpers"
-require "email_spec/matchers"
-require 'fakefs'
-
-FakeFS.activate!
-
-def random_word
-  Faker::Lorem.words(1).first
-end
-
-def build_author
-  object = Git::Author.new ''
-  object.stub!(:name).and_return(@author = Faker::Name.name)
-  object
-end
-
-def build_commit
-  object = mock(Object)
-  object.stub!(:author).and_return(build_author)
-  object.stub!(:message).and_return(@comment = random_word)
-  object.stub!(:sha).and_return(@commit = random_word)
-  object
-end
-
-def build_repo_for(project)
-  @commits = [build_commit, build_commit].reverse
-  Git.stub!(:open).with(project.send :path).and_return(mock(Object, :log => @commits))
-end
-
-def expect_for(command)
-  Kernel.should_receive(:system).with command
-end
-
-def dont_accept(command)
-  Kernel.should_not_receive(:system).with command
-end
-
-def on_command_return(result)
-  Kernel.stub!(:system).and_return(result)
-end
-
-def fail_on_command
-  on_command_return false
-end
-
-def success_on_command
-  on_command_return true
-end
-
-def file_exists(file, opts = {})
-  File.open(file, 'w') { |f| f.write(opts[:content] || '') }
-end
-
-def file_doesnt_exists(file)
-  File.delete file
 end
