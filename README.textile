@@ -1,5 +1,7 @@
 h2. INSTALLATION:
 
+0. Optionally, setup RVM: http://rvm.beginrescueend.com/rvm/install/
+
 1. Download the code:
 
 <pre><code>git clone git://github.com/dcrec1/signal.git</code></pre>
