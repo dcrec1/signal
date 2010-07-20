@@ -35,6 +35,11 @@ describe Project do
       dont_accept "cd #{@project.send :path} && git checkout -b #{branch} origin/#{branch} > #{@project.send :log_path} 2>&1"
       @project.save
     end
+    
+    it "should create a gemset with the project name" do
+      expect_for "cd #{@project.send :path} && rvm gemset create #{@project.name} >> #{@project.send :log_path} 2>&1"
+      @project.save
+    end
 
     it "should run inploy:local:setup" do
       expect_for "cd #{@project.send :path} && rake inploy:local:setup >> #{@project.send :log_path} 2>&1"
