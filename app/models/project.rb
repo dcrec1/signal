@@ -53,6 +53,7 @@ class Project < ActiveRecord::Base
   end
 
   def run_build_command
+    run "rvm gemset use #{name} >>"
     result = run "#{build_command} -N RAILS_ENV=test >>"
     return result, File.open(log_path).read
   end

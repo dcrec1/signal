@@ -18,6 +18,11 @@ describe Build do
       Build.create! :project => @project
     end
 
+    it "should use the project gemset" do
+      expect_for "cd #{@project.send :path} && rvm gemset use #{@project.name} >> #{@project.send :log_path} 2>&1"
+      Build.create! :project => @project
+    end
+
     it "should build the project with the test environment" do
       expect_for "cd #{@project.send :path} && rake build -N RAILS_ENV=test >> #{@project.send :log_path} 2>&1"
       Build.create! :project => @project
