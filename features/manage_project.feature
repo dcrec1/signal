@@ -18,6 +18,13 @@ Feature: Manage projects
     Then I should see /Bluepump/
     And I should see /gitFake/
 
+  Scenario: Remove a project
+    Given I have a project with name "Test Project"
+    And I am on the project page
+    When I follow "remove"
+    Then I should be on the projects page
+    And I should not see "Test Project"
+
   Scenario: Build project
     Given I have a project
     And I am on the project page

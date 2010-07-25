@@ -3,10 +3,12 @@
 
 en:
   ago: "ago"
+  are_you_sure: "Are you sure?"
   build: "build"
   edit: "edit"
   deploy: "deploy"
   features: "features"
   metrics: "metrics"
   new_project: "new project"
+  remove: "remove"
   specs: "specs"

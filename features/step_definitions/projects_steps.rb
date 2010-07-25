@@ -2,6 +2,10 @@ Given /^I have a project$/ do
   @project = Project.create! :name => "whatever", :url => "fake", :email => "fake2"
 end
 
+Given /^I have a project with name "([^"]*)"$/ do |arg1|
+  @project = Project.create! :name => name, :url => "fake", :email => "fake2"
+end
+
 When /^I request '(.*)'$/ do |path|
   visit path
 end

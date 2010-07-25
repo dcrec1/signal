@@ -10,6 +10,8 @@ module NavigationHelpers
     
     when /the home\s?page/
       '/'
+    when /the projects page/
+      projects_path
     when /the new test page/
       new_test_path
     when /the new projects page/
