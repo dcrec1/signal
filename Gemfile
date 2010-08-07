@@ -7,6 +7,13 @@ gem 'haml'
 gem 'koujou'
 gem 'git'
 gem 'metric_fu'
+gem 'formtastic', '0.2.5'
+gem 'hoptoad_notifier'
+gem 'more', '0.0.3'
+gem 'friendly_id', '2.1.4'
+gem 'jrails'
+gem 'delayed_job', '1.8.1'
+gem 'asset_packager'
 
 group :development do
   # bundler requires these gems in development
@@ -23,4 +30,6 @@ group :test do
   gem 'cucumber-rails'
   gem 'database_cleaner'
   gem 'capybara'
+  gem 'culerity'
+  gem 'email_spec', '0.3.5'
 end
