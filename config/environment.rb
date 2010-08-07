@@ -9,11 +9,7 @@ require File.join(File.dirname(__FILE__), 'boot')
 MAILER = YAML.load_file("#{RAILS_ROOT}/config/mailer.yml")
 
 Rails::Initializer.run do |config|
-  config.gem 'less'
-  config.gem 'haml'
-  config.gem 'koujou'
-  config.gem 'git'
-
+  
   config.time_zone = 'UTC'
 
   config.action_controller.page_cache_directory = RAILS_ROOT + "/public/cache"
