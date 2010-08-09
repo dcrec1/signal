@@ -13,6 +13,8 @@ gem 'friendly_id', '2.1.4'
 gem 'jrails'
 gem 'delayed_job', '1.8.1'
 
+gem 'inploy'
+
 gem 'metric_fu'
 
 group :test do
