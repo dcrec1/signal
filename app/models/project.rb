@@ -9,8 +9,6 @@ class Project < ActiveRecord::Base
   has_many :builds
   has_many :deploys
 
-  default_value_for :branch, "master"
-
   def after_create
     execute "cd #{BASE_PATH} && git clone --depth 1 #{url} #{name}"
     run "git checkout -b #{branch} origin/#{branch} >" unless branch.eql? "master"
