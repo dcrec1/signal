@@ -2,10 +2,16 @@
 !!!
 %html
   %head
-    %title= Signal
+    %title signal~
     = javascript_include_merged :base
-    = stylesheet_link_merged :base
+    = stylesheet_link_merged 'screen', :media => 'screen, projection'
+    = stylesheet_link_merged 'print', :media => 'print'
+    /[if lt IE 8]
+      = stylesheet_link_merged 'ie', :media => 'screen, projection'
+    
     = auto_discovery_link_tag :rss, root_path(:format => :rss), :title => "Signal"
   %body
-    %h1.header= link_to "Signal", root_path
-    = yield
+    #container
+      #header
+        %h1= link_to "signal~", root_path
+      #content= yield

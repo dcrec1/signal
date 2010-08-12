@@ -5,6 +5,9 @@ javascripts:
   - jquery-ui
   - jrails
 stylesheets:
-- base:
-  - scaffold
-  - application
+- ie:
+  - ie
+- screen:
+  - screen
+- print:
+  - print
