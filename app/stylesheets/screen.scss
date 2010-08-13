@@ -21,7 +21,7 @@
 
 body, #header, .actions {
   background-color: #black;
-  background: url(http://thoughtbot.com/images/dark-content.png);
+  background: url(../images/bg.png);
 }
 
 body, #header, #content {
@@ -44,6 +44,24 @@ body {
 
   #container {
     @include container;
+
+    #header h1 {
+      margin-top: 0.5em;
+      font-family: monospace;
+      font-weight: bold;
+    }
+
+    .actions {
+      padding-top: 5px;
+      font-size: 16px;
+    }
+
+    .build {
+      .output {
+        overflow: auto;
+        height: 400px;
+      }
+    }
   }
 
   #header, #content {
@@ -61,7 +79,7 @@ body {
       border-bottom: 0px;
       margin-bottom: 0px;
       padding: 10px;
-      font-size: 20px;
+      font-size: 30px;
 
       .name {
         font-weight: 900;
@@ -70,6 +88,7 @@ body {
       }
 
       .date {
+        /*margin-left: 700px;*/
         font-weight: 100;
       }
     }
