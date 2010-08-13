@@ -56,10 +56,48 @@ body {
       font-size: 16px;
     }
 
+    .projects .project .name {
+      padding-left: 0;
+    }
+
+    .project {
+      .name, .author {
+        font-weight: bold;
+      }
+
+      .name, .build .author, .build .comment, .build .date {
+        padding-left: 20px;
+        font-size: 20px;
+      }
+
+      .name {
+        font-size: 30px;
+      }
+
+      .url, .email, .branch {
+        display: none; 
+      }
+    }
+
     .build {
+      margin-bottom: 0;
+      border: 0;
+      padding: 0;
+
+      .date {
+        font-weight: lighter;
+      }
+
       .output {
         overflow: auto;
         height: 400px;
+        background-color: black;
+        color: white;
+        padding: 20px;
+
+        .code {
+          width: 1024px;
+        }
       }
     }
   }
@@ -88,7 +126,6 @@ body {
       }
 
       .date {
-        /*margin-left: 700px;*/
         font-weight: 100;
       }
     }
@@ -140,3 +177,12 @@ body {
 body a {
   @include hover-link;
 }
+
+.color30 { color: #333; }
+.color31 { color: #e33; }
+.color32 { color: #3e3; }
+.color33 { color: #ee3; }
+.color34 { color: #33e; }
+.color35 { color: #e3e; }
+.color36 { color: #3ee; }
+.color37 { color: #fff; }

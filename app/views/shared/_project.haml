@@ -6,11 +6,12 @@
 
   = yield
 
-= link_to t(:edit),              edit_project_path(project)
-= link_to t(:remove),            project_path(project), :method => :delete, :confirm => t("are_you_sure")
-= link_to t(:build),             project_builds_path(project), :method => :post
-= link_to t(:specs),             specs_path(project.name) if project.has_file?("doc/specs.html")
-= link_to t(:features),          features_path(project.name) if project.has_file?("doc/features.html")
-= link_to t(:metrics),           metrics_path(project.name) if project.has_file?("tmp/metric_fu/output/index.html")
-= link_to "#{project.name}.war", war_path(project.name) if project.has_file?("target/#{project.name}.war")
-= link_to t(:deploy),            project_deploys_path(project), :method => :post unless project.deploy_command.empty?
+.actions
+  = link_to t(:edit),              edit_project_path(project)
+  = link_to t(:remove),            project_path(project), :method => :delete, :confirm => t("are_you_sure")
+  = link_to t(:build),             project_builds_path(project), :method => :post
+  = link_to t(:specs),             specs_path(project.name) if project.has_file?("doc/specs.html")
+  = link_to t(:features),          features_path(project.name) if project.has_file?("doc/features.html")
+  = link_to t(:metrics),           metrics_path(project.name) if project.has_file?("tmp/metric_fu/output/index.html")
+  = link_to "#{project.name}.war", war_path(project.name) if project.has_file?("target/#{project.name}.war")
+  = link_to t(:deploy),            project_deploys_path(project), :method => :post unless project.deploy_command.empty?

@@ -1,5 +1,6 @@
 .build{:class => build.status}
-  .author= build.author
+  .author= build.author+ ':'
   .comment= build.comment
   .date= ago(build.created_at)
-  .output= format_output(build.output)
+  .output
+    .code= format_output(build.output)
