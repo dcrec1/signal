@@ -110,6 +110,10 @@ body {
     @include error;
   }
 
+  .building {
+    @include notice;
+  }
+
   .projects {
     @include border-radius;
 
