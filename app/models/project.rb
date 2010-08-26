@@ -24,6 +24,7 @@ class Project < ActiveRecord::Base
   def build
     update_attribute :building, true
     builds.create
+    update_attribute :building, false
   end
 
   def deploy

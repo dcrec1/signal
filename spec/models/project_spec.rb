@@ -61,6 +61,12 @@ describe Project do
       end
       project.build
     end
+
+    it "should set the project as not building after build" do
+      project.builds.stub!(:create)
+      project.build
+      project.should_not be_building
+    end
   end
 
   context "when returing the status" do
