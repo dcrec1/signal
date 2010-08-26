@@ -15,7 +15,7 @@ gem 'delayed_job', '1.8.1'
 gem "compass", ">= 0.10.2"
 gem "daemons"
 
-gem 'inploy'
+gem 'inploy', '>=1.6.8'
 
 gem 'metric_fu'
 
