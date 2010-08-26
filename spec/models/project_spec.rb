@@ -47,10 +47,20 @@ describe Project do
     end
   end
 
-  it "should build the project creating a new build" do
-    project = Project.new
-    project.builds.should_receive(:create)
-    project.build
+  context "on #build" do
+    let(:project) { create_project }
+
+    it "should create a new build" do
+      project.builds.should_receive(:create)
+      project.build
+    end
+
+    it "should set the project as building while building" do
+      project.builds.should_receive(:create) do
+        Project.last.should be_building
+      end
+      project.build
+    end
   end
 
   context "when returing the status" do

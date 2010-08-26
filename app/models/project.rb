@@ -22,6 +22,7 @@ class Project < ActiveRecord::Base
   end
 
   def build
+    update_attribute :building, true
     builds.create
   end
 

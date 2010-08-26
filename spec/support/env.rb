@@ -54,3 +54,7 @@ end
 def file_doesnt_exists(file)
   File.delete file
 end
+
+def create_project
+  Project.create! :name => "signal", :url => "git@signal", :email => "signal@signal.com"
+end
