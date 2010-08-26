@@ -56,5 +56,8 @@ def file_doesnt_exists(file)
 end
 
 def create_project
-  Project.create! :name => "signal", :url => "git@signal", :email => "signal@signal.com"
+  returning Project.new :name => "signal", :url => "git@signal", :email => "signal@signal.com" do |project|
+    project.stub!(:execute)
+    project.save!
+  end
 end
