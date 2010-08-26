@@ -1,5 +1,6 @@
 class Project < ActiveRecord::Base
   BASE_PATH = "#{RAILS_ROOT}/public/projects"
+  BUILDING = "building"
 
   has_friendly_id :name
   before_update :rename_directory
@@ -17,7 +18,7 @@ class Project < ActiveRecord::Base
   end
 
   def status
-    builds.last.try(:status)
+    building ? BUILDING : builds.last.try(:status)
   end
 
   def build

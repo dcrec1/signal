@@ -68,6 +68,11 @@ describe Project do
       @project.status.should eql(Build::FAIL)
     end
 
+    it "should return #{Project::BUILDING} when the build is running" do
+      @project.building = true
+      @project.status.should eql(Project::BUILDING)
+    end
+
     it "should return nil when there are no builds" do
       @project.builds = []
       @project.status.should be_nil
