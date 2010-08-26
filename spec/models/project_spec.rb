@@ -69,6 +69,16 @@ describe Project do
     end
   end
 
+  context "on #activity" do
+    it "should return Sleeping when not being build" do
+      Project.new(:building => false).activity.should eql('Sleeping')
+    end
+
+    it "should return Building when being build" do
+      Project.new(:building => true).activity.should eql('Building')
+    end
+  end
+
   context "when returing the status" do
     before :each do
       @project = Project.new :builds => [@build = Build.new]

@@ -39,6 +39,10 @@ class Project < ActiveRecord::Base
     File.exists?("#{path}/#{file}")  
   end
 
+  def activity
+    building? ? 'Building' : 'Sleeping'
+  end
+
   protected
 
   def rename_directory
