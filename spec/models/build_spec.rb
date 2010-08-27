@@ -23,14 +23,9 @@ describe Build do
       Build.create! :project => @project
     end
 
-    it "should build the project with the test environment" do
-      expect_for "cd #{@project.send :path} && rake build -N RAILS_ENV=test >> #{@project.send :log_path} 2>&1"
-      Build.create! :project => @project
-    end
-
-    it "should build the project executing the project's build command" do
+    it "should build the project unsetting GEM_PATH, RUBYOPT, RAILS_ENV and executing the project's build command" do
       @project.build_command = "rake test"
-      expect_for "cd #{@project.send :path} && rake test -N RAILS_ENV=test >> #{@project.send :log_path} 2>&1"
+      expect_for "cd #{@project.send :path} && unset GEM_PATH && unset RUBYOPT && unset RAILS_ENV && rake test >> #{@project.send :log_path} 2>&1"
       Build.create! :project => @project
     end
 
