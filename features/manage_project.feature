@@ -2,6 +2,8 @@ Feature: Manage projects
 
   Scenario: Register new project
     Given I am on the new projects page
+    Then I should not see /Building/
+
     When I fill in "project_name" with "Geni"
     And I fill in "project_url" with "git://fake"
     And I fill in "project_email" with "fake@too.com"
@@ -12,6 +14,8 @@ Feature: Manage projects
   Scenario: Update a project
     Given I have a project
     And I am on the edit project page
+    Then I should not see /Building/
+
     When I fill in "project_name" with "Bluepump"
     When I fill in "project_url" with "gitFake"
     And I press "Save Project"
