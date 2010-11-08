@@ -1,3 +1,10 @@
 address: smtp.host.com
 port: 25
 domain: host.com
+
+# for gmail use the configuration below
+# address: smtp.gmail.com
+# port: 587
+# domain: host.com
+# user_name: mail@gmail.com
+# password: mysupergmailsecret
