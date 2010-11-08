@@ -7,8 +7,8 @@ class Project < ActiveRecord::Base
 
   validates_presence_of :name, :url, :email
 
-  has_many :builds
-  has_many :deploys
+  has_many :builds, :dependent => :destroy
+  has_many :deploys, :dependent => :destroy
 
   def after_create
     execute "cd #{BASE_PATH} && git clone --depth 1 #{url} #{name}"
