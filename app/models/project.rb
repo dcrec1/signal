@@ -17,6 +17,10 @@ class Project < ActiveRecord::Base
     run "rake inploy:local:setup >>"
   end
 
+  def after_destroy
+    execute "rm -rf #{path}"
+  end
+
   def status
     building ? BUILDING : builds.last.try(:status)
   end
