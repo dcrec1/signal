@@ -54,16 +54,6 @@ Or from the local machine:
 
 2. Restart the server
 
-h2. PROJECTS
-
-Every project you are importing needs to have a rake build task.
-
-<pre><code>rake build</code></pre>
-
-The task in your project should look something like this:
-
-<pre><code>task :build => ['db:migrate', :spec, :cucumber, 'metrics:all']</code></pre>
-
 h2. USAGE
 
 To fire a build from a script you can ping:
