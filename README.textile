@@ -1,22 +1,8 @@
 h2. INSTALLATION:
 
-0. Optionally, setup RVM: http://rvm.beginrescueend.com/rvm/install/
-
-1. Download the code:
+1. Clone the repository:
 
 <pre><code>git clone git://github.com/dcrec1/signal.git</code></pre>
-
-If you are installing the application on a remote machine:
-
-2.  Copy config/deploy.rb.sample to config/deploy.rb
-
-2.1 Configure config/deploy.rb
-
-2.2 Setup the application in the remote host:
-
-<pre><code>rake inploy:remote:setup</code></pre>
-
-Or if you are installing the application in the local machine:
 
 2. Setup the application
 
@@ -30,7 +16,9 @@ Or if you are installing the application in the local machine:
 
 5. Startup the application in your favourite server (passenger recommended)
 
-If you want to use somer other database than SQLite (recommended):
+OPTIONAL
+
+If you want to use somer other database than SQLite:
 
 6. Configure config/database.yml
 
@@ -38,25 +26,17 @@ If you want to use somer other database than SQLite (recommended):
 
 <pre><code>rake db:migrate RAILS_ENV=production</code></pre>
 
-If you're using Passenger on OS X, you may need edit the path:
+If you're using Passenger on OS X, you may need to edit the path:
 
 http://www.icoretech.org/2009/08/passenger-mod_rails-path-on-leopard-snow-leopard/
 
 h2. UPDATE
 
-From a remote machine:
-
-<pre><code>rake inploy:remote:update</code></pre>
-
-Or from the local machine:
-
 <pre><code>rake inploy:local:update</code></pre>
-
-2. Restart the server
 
 h2. USAGE
 
-To fire a build from a script you can ping:
+To fire a build you can ping:
 
 <pre><code>http://myserver/projects/id/build</code></pre>
 
@@ -66,7 +46,7 @@ h2. LICENSE:
 
 (The MIT License)
 
-Copyright (c) 2009
+Copyright (c) 2010
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
