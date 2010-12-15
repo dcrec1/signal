@@ -3,9 +3,11 @@ require 'spec_helper'
 describe ProjectsController do
   context "responding to build" do
     it "should build a project in the background" do
-      Project.stub!(:find).with(project_id = "10").and_return(project = mock(Project))
-      project.should_receive(:send_later).with(:build)
-      get :build, :project_id => project_id
+      success_on_command
+      project = Factory :project
+      controller.stub!(:resource).and_return(project)
+      project.should_receive(:build)
+      get :build, :id => project.id
     end
   end
 

@@ -3,8 +3,11 @@ SignalCI::Application.routes.draw do
     resources :builds
     resources :deploys
     collection do
-      match 'build' => "projects#build"
       match 'status' => "projects#fetch_status"
+    end
+
+    member do
+      match 'build' => "projects#build"
     end
   end
   root :to => "projects#index"
