@@ -1,6 +1,7 @@
 source :gemcutter
 
 gem 'rails', '3.0.3'
+gem 'sqlite3-ruby'
 gem 'mysql', :group => :production
 gem 'haml'
 gem 'inherited_resources', '>=1.1.2'
@@ -9,7 +10,7 @@ gem 'formtastic', '>=1.1.0'
 gem 'hoptoad_notifier'
 gem 'more', '0.0.3'
 gem 'friendly_id', '>=3.1.8'
-gem 'delayed_job', '2.1.2'
+gem 'delayed_job', '>=2.1'
 gem "compass", ">= 0.10.2"
 gem "daemons"
 
@@ -18,7 +19,6 @@ gem 'inploy', '>=1.6.8'
 gem 'metric_fu'
 
 group :development, :test do
-  gem 'sqlite3-ruby'
   gem 'rspec', '>=2.0.1'
   gem 'rspec-rails', '>=2.0.1'
   gem "factory_girl_rails"

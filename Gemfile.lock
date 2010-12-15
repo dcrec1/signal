@@ -241,7 +241,7 @@ DEPENDENCIES
   cucumber-rails
   daemons
   database_cleaner
-  delayed_job (= 2.1.2)
+  delayed_job (>= 2.1)
   factory_girl_rails
   faker
   formtastic (>= 1.1.0)
