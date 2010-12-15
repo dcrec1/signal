@@ -3,6 +3,6 @@
 
 .projects= render :partial => "shared/projects"
 
-= periodically_call_remote :url => projects_status_path, :update => '.projects', :method => :get
+= hidden_field_tag :status_path, status_projects_path
 
 .actions= link_to I18n.t(:new_project), new_project_path

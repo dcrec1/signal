@@ -1,8 +1,14 @@
 require 'spec/mocks'
 
+class Project
+  def execute(param)
+  end
+
+  def last_commit
+    Git.open(Rails.root).log.first
+  end
+end
+
 Before do
-  Kernel.stub!(:system)
-  repo = Git.open RAILS_ROOT
-  Git.stub!(:open).and_return(repo)
-  File.open(RAILS_ROOT + "/tmp/whatever", 'w') { |f| f.write "fqwfwefwejkiwegw" }
+  system "echo \"123456789\" > tmp/whatever"
 end

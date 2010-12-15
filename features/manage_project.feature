@@ -18,7 +18,7 @@ Feature: Manage projects
 
     When I fill in "project_name" with "Bluepump"
     When I fill in "project_url" with "gitFake"
-    And I press "Save Project"
+    And I press "Update Project"
     Then I should see /Bluepump/
     And I should see /gitFake/
 
@@ -44,7 +44,7 @@ Feature: Manage projects
     Then a new deploy should be created
     And I should see the output of the deploy
     And I should see the name of the project
-    
+
   Scenario: Get projects status in XML format
     When I request '/projects/status.xml'
     Then I should get a XML document
@@ -54,7 +54,7 @@ Feature: Manage projects
     When I request '/'
     Then I should receive a link for the feed of all projects
     And I should receive a link for the feed of the project
-    When I request '/projects.rss' 
+    When I request '/projects.rss'
     Then I should see the name of the project
     When I request '/projects/1.rss'
     Then I should see the name of the project

@@ -31,7 +31,7 @@ Then /^I should see the name of the project$/ do
 end
 
 Then /^I should see the output of the deploy$/ do
-  page.should have_xpath('//*', :text => @deploy.output)
+  Then "I should see \"#{@deploy.output.gsub("\n", "")}\""
 end
 
 Then /^I should get a XML document$/ do

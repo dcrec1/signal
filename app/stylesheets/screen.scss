@@ -60,7 +60,7 @@ body {
       padding-left: 0;
     }
 
-    .project {
+    div.project {
       .name, .author {
         font-weight: bold;
       }
@@ -75,7 +75,7 @@ body {
       }
 
       .url, .email, .branch {
-        display: none; 
+        display: none;
       }
     }
 
@@ -149,6 +149,10 @@ body {
         display: inline-block;
         width: 120px;
       }
+    }
+
+    input[type=url] {
+      @extend input.text;
     }
 
     input[type=submit] {

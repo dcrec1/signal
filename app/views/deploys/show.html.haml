@@ -1,4 +1,4 @@
-- render :layout => "shared/project", :locals => { :project => @deploy.project } do
+= render :layout => "shared/project", :locals => { :project => @deploy.project } do
   .deploy{:class => @deploy.status}
     .date= ago(@deploy.created_at)
     .output= @deploy.output.gsub("\n", "<br>")

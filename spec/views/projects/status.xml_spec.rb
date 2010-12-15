@@ -4,32 +4,32 @@ describe "/projects/status.xml.haml" do
   context "rendering a xml document respecting CCMMenu specifications" do
     before :each do
       @build = Build.new :success => rand(1)
-      @project = Project.koujou_build :builds => [@build]
-      assigns[:projects] = @projects = [Project.koujou_build, @project]
+      @project = Factory.build :project, :builds => [@build]
+      assigns[:projects] = @projects = [Factory.build(:project), @project]
     end
-    
+
     it "creates a Projects > Project node for each project" do
       render
-      response.should have_tag("Projects > Project", :count => @projects.size)
+      rendered.should have_selector("projects > project", :count => @projects.size)
     end
-    
-    it "sets Project status to Unknow if the project hasn't any builds" do
+
+    it "sets Project statusselector Unknow if the project hasn't any builds" do
       render
-      response.should have_tag("Project[lastBuildStatus=Unknown]")
+      rendered.should have_selector("project[lastbuildstatus=\"Unknown\"]")
     end
-    
-    it "sets Project status to the last build status" do
+
+    it "sets Project statusselector the last build status" do
       status = @build.success ? "Success" : "Failure"
       render
-      response.should have_tag("Project[lastBuildStatus=#{status}]")
+      rendered.should have_selector("project[lastbuildstatus=\"#{status}\"]")
     end
-    
-    it "sets corresponding attributes for the Project node" do
+
+    it "sets corresponding selector attributes for the Project node" do
       render
-      response.should have_tag("Project[name=#{@project.name}]")
-      response.should have_tag("Project[activity=Sleeping]")
-      response.should have_tag("Project[lastBuildTime=#{@build.created_at}]")
-      response.should have_tag("Project[webUrl=#{project_path(@project)}]")
+      rendered.should have_selector("project[name=\"#{@project.name}\"]")
+      rendered.should have_selector("project[activity=\"Sleeping\"]")
+      rendered.should have_selector("project[lastbuildtime=\"#{@build.created_at}\"]")
+      rendered.should have_selector("project[weburl=\"#{project_path(@project)}\"]")
     end
   end
 end

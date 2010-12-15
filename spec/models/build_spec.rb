@@ -8,8 +8,8 @@ describe Build do
   context "on creation" do
     before :each do
       fail_on_command
-      File.stub!(:open).and_return(mock(Object, :read => "lorem ipsum"))
-      @project = Project.koujou_build :branch => "staging"
+      @project = Factory.build :project, :branch => "staging"
+      system "echo \"lorem ipsum\" > tmp/#{@project.name}"
       build_repo_for @project
     end
 
@@ -50,7 +50,8 @@ describe Build do
     it "should deliver an fail notification email if build fails" do
       fail_on_command
       build = Build.new :project => @project
-      Notifier.should_receive(:deliver_fail_notification).with(build)
+      Notifier.should_receive(:fail_notification).with(build).and_return(notifier = mock(Notifier))
+      notifier.should_receive :deliver
       build.save
     end
 
@@ -58,7 +59,8 @@ describe Build do
       success_on_command
       Build.stub!(:last).and_return(mock(Build, :success => false))
       build = Build.new :project => @project
-      Notifier.should_receive(:deliver_fix_notification).with(build)
+      Notifier.should_receive(:fix_notification).with(build).and_return(notifier = mock(Notifier))
+      notifier.should_receive :deliver
       build.save
     end
 

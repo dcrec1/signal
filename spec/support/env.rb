@@ -1,8 +1,5 @@
-require "email_spec/helpers"
-require "email_spec/matchers"
-require 'fakefs'
-
-FakeFS.activate!
+#require "email_spec/helpers"
+#require "email_spec/matchers"
 
 def random_word
   Faker::Lorem.words(1).first
@@ -48,16 +45,23 @@ def success_on_command
 end
 
 def file_exists(file, opts = {})
-  File.open(file, 'w') { |f| f.write(opts[:content] || '') }
+  system "mkdir -p #{path_from(file)}"
+  system "echo \"#{opts.fetch(:content, '')}\" > #{file}"
 end
 
 def file_doesnt_exists(file)
-  File.delete file
+  system "rm #{file}"
 end
 
 def create_project
-  returning Project.new :name => "signal", :url => "git@signal", :email => "signal@signal.com" do |project|
+  Project.new(:name => "signal", :url => "git@signal", :email => "signal@signal.com").tap do |project|
     project.stub!(:execute)
     project.save!
   end
+end
+
+def path_from(file)
+  folders = file.split "/"
+  folders.pop
+  folders.join "/"
 end

@@ -2,6 +2,9 @@ class Notifier < ActionMailer::Base
   helper :projects
   helper :builds
 
+  default :from => "signal@#{SignalCI::Application::MAILER['domain']}",
+          :content_type => "text/html"
+
   def fail_notification(build)
     deliver build, "failed"
   end
@@ -13,11 +16,8 @@ class Notifier < ActionMailer::Base
   private
 
   def deliver(build, status)
-    project = build.project
-    from "signal@#{MAILER['domain']}"
-    recipients project.email
-    subject "[Signal] #{project.name} #{status}"
-    body :build => build, :project => project
-    content_type "text/html"
+    @build = build
+    @project = build.project
+    mail :to => @project.email, :subject => "[Signal] #{@project.name} #{status}"
   end
 end

@@ -6,7 +6,7 @@ describe Project do
   should_have_many :deploys
 
   it "should have public/projects as the projects base path" do
-    Project::BASE_PATH.should eql("#{RAILS_ROOT}/public/projects")
+    Project::BASE_PATH.should eql("#{Rails.root}/public/projects")
   end
 
   it "should have default build_command as 'rake build'" do
@@ -14,58 +14,63 @@ describe Project do
   end
 
   context "on creation" do
+    subject { Factory.build :project }
+
     before :each do
       success_on_command
-      @project = Project.new :name => "social", :url => "git://social", :email => "fake@mouseoverstudio.com"
     end
 
     it "should clone a repository without the history" do
-      expect_for "cd #{Project::BASE_PATH} && git clone --depth 1 #{@project.url} #{@project.name}"
-      @project.save
+      expect_for "cd #{Project::BASE_PATH} && git clone --depth 1 #{subject.url} #{subject.name}"
+      subject.save
     end
 
     it "should checkout the configured branch if different from master" do
-      @project.branch = branch = "integration"
-      expect_for "cd #{@project.send :path} && git checkout -b #{branch} origin/#{branch} > #{@project.send :log_path} 2>&1"
-      @project.save
+      subject.branch = "integration"
+      expect_for "cd #{subject.send :path} && git checkout -b #{subject.branch} origin/#{subject.branch} > #{subject.send :log_path} 2>&1"
+      subject.save
     end
 
     it "should dont checkout the configured branch if it's master" do
-      branch = @project.branch
-      dont_accept "cd #{@project.send :path} && git checkout -b #{branch} origin/#{branch} > #{@project.send :log_path} 2>&1"
-      @project.save
+      subject.branch = "master"
+      dont_accept "cd #{subject.send :path} && git checkout -b #{subject.branch} origin/#{subject.branch} > #{subject.send :log_path} 2>&1"
+      subject.save
     end
-    
-    it "should create a gemset with the project name" do
-      expect_for "cd #{@project.send :path} && rvm gemset create #{@project.name} >> #{@project.send :log_path} 2>&1"
-      @project.save
+
+    it "should create a gemset with the subject name" do
+      expect_for "cd #{subject.send :path} && rvm gemset create #{subject.name} >> #{subject.send :log_path} 2>&1"
+      subject.save
     end
 
     it "should run inploy:local:setup" do
-      expect_for "cd #{@project.send :path} && rake inploy:local:setup >> #{@project.send :log_path} 2>&1"
-      @project.save
+      expect_for "cd #{subject.send :path} && rake inploy:local:setup >> #{subject.send :log_path} 2>&1"
+      subject.save
     end
   end
 
   context "on #build" do
-    let(:project) { create_project }
+    subject { Factory.build :project }
+
+    before :each do
+      success_on_command
+    end
 
     it "should create a new build" do
-      project.builds.should_receive(:create)
-      project.build
+      subject.builds.should_receive(:create)
+      subject.build
     end
 
     it "should set the project as building while building" do
-      project.builds.should_receive(:create) do
+      subject.builds.should_receive(:create) do
         Project.last.should be_building
       end
-      project.build
+      subject.build
     end
 
     it "should set the project as not building after build" do
-      project.builds.stub!(:create)
-      project.build
-      project.should_not be_building
+      subject.builds.stub!(:create)
+      subject.build
+      subject.should_not be_building
     end
   end
 

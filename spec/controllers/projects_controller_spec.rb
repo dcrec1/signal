@@ -1,8 +1,6 @@
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+require 'spec_helper'
 
 describe ProjectsController do
-  should_behave_like_resource :formats => [:html, :xml, :rss]
-
   context "responding to build" do
     it "should build a project in the background" do
       Project.stub!(:find).with(project_id = "10").and_return(project = mock(Project))
@@ -17,17 +15,17 @@ describe ProjectsController do
     end
 
     it "with html format should render projects template" do
-      get :status
+      get :fetch_status
       response.should render_template("shared/_projects")
     end
-    
+
     it "with xml format should render status.xml" do
-      get :status, :format => 'xml'
-      response.should render_template("status.xml")
+      get :fetch_status, :format => 'xml'
+      response.should render_template("projects/status")
     end
 
     it "should assign all the projects to @projects" do
-      get :status
+      get :fetch_status
       assigns[:projects].should eql(@projects)
     end
   end

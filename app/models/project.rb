@@ -1,5 +1,5 @@
 class Project < ActiveRecord::Base
-  BASE_PATH = "#{RAILS_ROOT}/public/projects"
+  BASE_PATH = "#{Rails.root}/public/projects"
   BUILDING = "building"
 
   has_friendly_id :name
@@ -10,7 +10,7 @@ class Project < ActiveRecord::Base
   has_many :builds, :dependent => :destroy
   has_many :deploys, :dependent => :destroy
 
-  def after_create
+  after_create do
     execute "cd #{BASE_PATH} && git clone --depth 1 #{url} #{name}"
     run "git checkout -b #{branch} origin/#{branch} >" unless branch.eql? "master"
     run "rvm gemset create #{name} >>"
@@ -40,7 +40,7 @@ class Project < ActiveRecord::Base
   end
 
   def has_file?(file)
-    File.exists?("#{path}/#{file}")  
+    File.exists?("#{path}/#{file}")
   end
 
   def activity
@@ -78,7 +78,7 @@ class Project < ActiveRecord::Base
   end
 
   def log_path
-    "#{RAILS_ROOT}/tmp/#{name}"
+    "#{Rails.root}/tmp/#{name}"
   end
 
   def run(cmd)
