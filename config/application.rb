@@ -15,7 +15,8 @@ module SignalCI
     config.action_mailer.smtp_settings = {
       :address          => MAILER['address'],
       :port             => MAILER['port'],
-      :domain           => MAILER['domain']
+      :domain           => MAILER['domain'],
+      :enable_starttls_auto => false
     }
   end
 end
