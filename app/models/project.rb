@@ -30,6 +30,7 @@ class Project < ActiveRecord::Base
     builds.create
     update_attribute :building, false
   end
+  handle_asynchronously :build
 
   def deploy
     deploys.create

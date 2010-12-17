@@ -57,20 +57,24 @@ describe Project do
 
     it "should create a new build" do
       subject.builds.should_receive(:create)
-      subject.build
+      subject.build_without_delay
     end
 
     it "should set the project as building while building" do
       subject.builds.should_receive(:create) do
         Project.last.should be_building
       end
-      subject.build
+      subject.build_without_delay
     end
 
     it "should set the project as not building after build" do
       subject.builds.stub!(:create)
-      subject.build
+      subject.build_without_delay
       subject.should_not be_building
+    end
+
+    it "should be async" do
+      subject.should respond_to(:build_with_delay)
     end
   end
 
