@@ -1,4 +1,4 @@
-!!! XML
+!!! 5
 !!!
 %html
   %head
@@ -12,6 +12,6 @@
     = auto_discovery_link_tag :rss, root_path(:format => :rss), :title => "Signal"
   %body
     #container
-      #header
+      %header
         %h1= link_to "signal~", root_path
       #content= yield

@@ -17,21 +17,9 @@
 @import "compass/css3/box-shadow";
 @import "compass/utilities/links/hover-link";
 
-// Page layout can be done using mixins applied to your semantic classes and IDs:
-
-body, #header, .actions {
-  background-color: #black;
-  background: url(../images/bg.png);
-}
-
-body, #header, #content {
-  a, a:active, a:visited {
-    color: white;
-  }
-}
-
-#content {
-  background-color: white;
+.success, .failure, .building {
+  margin-bottom: 0 !important;
+  padding: 0 !important;
 }
 
 body {
@@ -41,32 +29,37 @@ body {
   @include blueprint-interaction;
   @include blueprint-scaffolding;
 
+  background: url(../images/bg.png);
 
   #container {
     @include container;
 
-    #header h1 {
+    a, a:active, a:visited {
+      @include hover-link;
+      color: white !important;
+    }
+
+    header h1 {
       margin-top: 0.5em;
       font-family: monospace;
       font-weight: bold;
     }
 
-    .actions {
+    nav {
       padding-top: 5px;
       font-size: 16px;
     }
 
-    .projects .project .name {
-      padding-left: 0;
-    }
+    .project {
+      background-color: white;
+      color: black;
 
-    div.project {
       .name, .author {
+        margin-left: 10px;
         font-weight: bold;
       }
 
       .name, .build .author, .build .comment, .build .date {
-        padding-left: 20px;
         font-size: 20px;
       }
 
@@ -76,6 +69,26 @@ body {
 
       .url, .email, .branch {
         display: none;
+      }
+
+      &.success, .build.success {
+        @include success;
+      }
+
+      &.failure, .build.failure {
+        @include error;
+      }
+
+      &.building, .build.building {
+        @include notice;
+      }
+
+      .build {
+        border: 0px !important;
+
+        .author, .comment, .date {
+          margin-left: 10px;
+        }
       }
     }
 
@@ -102,45 +115,35 @@ body {
     }
   }
 
-  #header, #content {
-    @include column($blueprint-grid-columns, true);
-  }
-
-  .failure {
-    @include error;
-  }
-
-  .building {
-    @include notice;
-  }
-
   .projects {
+    @include column($blueprint-grid-columns, true);
     @include border-radius;
 
     .project {
+      @include clearfix;
       border-bottom: 0px;
       margin-bottom: 0px;
-      padding: 10px;
+      padding: 10px !important;
       font-size: 30px;
 
       .name {
         font-weight: 900;
-        float:left;
         margin-right: 20px;
       }
 
       .date {
         font-weight: 100;
       }
-    }
 
-    a:last-child .project {
-      border-bottom-width: 2px;
+      .name, .date {
+        float: left;
+      }
     }
   }
 
   form {
     @include blueprint-form;
+    background-color: white;
 
     fieldset {
       border: 0;
@@ -180,10 +183,6 @@ body {
       list-style-type: none;
     }
   }
-}
-
-body a {
-  @include hover-link;
 }
 
 .color30 { color: #333; }

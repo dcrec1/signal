@@ -6,7 +6,7 @@
 
   = yield
 
-.actions
+%nav
   = link_to t(:edit),              edit_project_path(project)
   = link_to t(:remove),            project, :confirm => t("are_you_sure"), :method => :delete
   = link_to t(:build),             project_builds_path(project), :method => :post

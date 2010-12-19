@@ -17,7 +17,7 @@ class Project < ActiveRecord::Base
     run "rake inploy:local:setup >>"
   end
 
-  def after_destroy
+  after_destroy do
     execute "rm -rf #{path}"
   end
 
