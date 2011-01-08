@@ -59,16 +59,12 @@ body {
         font-weight: bold;
       }
 
-      .name, .build .author, .build .comment, .build .date {
+      .name .branch .build .author .build .comment .build .date {
         font-size: 20px;
       }
 
       .name {
         font-size: 30px;
-      }
-
-      .url, .email, .branch {
-        display: none;
       }
 
       &.success, .build.success {
