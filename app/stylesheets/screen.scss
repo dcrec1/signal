@@ -50,7 +50,7 @@ body {
       font-size: 16px;
     }
 
-    .project {
+    div.project {
       background-color: white;
       color: black;
 
@@ -59,7 +59,7 @@ body {
         font-weight: bold;
       }
 
-      .name .branch .build .author .build .comment .build .date {
+      .name, .build .author, .build .comment, .build .date {
         font-size: 20px;
       }
 
@@ -77,6 +77,10 @@ body {
 
       &.building, .build.building {
         @include notice;
+      }
+
+      .url, .email, .branch {
+        display: none;
       }
 
       .build {
