@@ -1,6 +1,6 @@
 source :gemcutter
 
-gem 'rails', '3.0.3'
+gem 'rails', '3.0.6'
 gem 'sqlite3-ruby'
 gem 'mysql', :group => :production
 gem 'haml'
@@ -14,7 +14,7 @@ gem 'delayed_job', '>=2.1'
 gem "compass", ">= 0.10.2"
 gem "daemons"
 
-gem 'inploy', '>=1.6.8'
+gem 'inploy', '>=1.9'
 
 gem 'metric_fu'
 
