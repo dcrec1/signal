@@ -40,3 +40,7 @@ group :cucumber do
   gem 'spork', ">=0.8.4"
   gem "pickle", ">=0.4.2"
 end
+
+group :production do
+  gem "mysql2"
+end

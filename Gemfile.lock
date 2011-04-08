@@ -140,6 +140,7 @@ GEM
       less
     mutter (0.5.3)
     mysql (2.8.1)
+    mysql2 (0.2.6)
     nokogiri (1.4.4)
     pickle (0.4.7)
       cucumber (>= 0.8)
@@ -255,6 +256,7 @@ DEPENDENCIES
   metric_fu
   more (= 0.0.3)
   mysql
+  mysql2
   pickle (>= 0.4.2)
   rails (= 3.0.6)
   remarkable (>= 4.0.0.alpha4)
