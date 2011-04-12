@@ -1,3 +1,9 @@
 = semantic_form_for @project do |form|
-  = form.inputs :name, :url, :email, :branch, :deploy_command, :build_command
+  = form.inputs do
+    = form.input :name
+    = form.input :url, :as => "string"
+    = form.input :email
+    = form.input :branch
+    = form.input :deploy_command
+    = form.input :build_command
   = form.buttons

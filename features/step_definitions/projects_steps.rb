@@ -10,6 +10,10 @@ When /^I request '(.*)'$/ do |path|
   visit path
 end
 
+When /^I request '(.*)' for created project$/ do |path|
+  visit path.gsub("1", "#{@project.id}")
+end
+
 When /^a new project should be created$/ do
   Project.count.should == 1
 end
@@ -44,4 +48,8 @@ end
 
 Then /^I should receive a link for the feed of the project$/ do
   page.should have_xpath("//link[@type='application/rss+xml'][@href='/projects/#{@project.name}.rss'][@title='#{@project.name}']")
+end
+
+Then /^I should see url field with type text$/ do
+  find(:xpath, '//*[@id="project_url" and @type="text"]').should_not raise_exception(Capybara::ElementNotFound)
 end

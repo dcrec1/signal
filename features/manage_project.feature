@@ -1,6 +1,5 @@
 Feature: Manage projects
 
-  @javascript
   Scenario: Register new project
     Given I am on the new projects page
     Then I should not see /Building/
@@ -11,6 +10,10 @@ Feature: Manage projects
     And I press "Create Project"
     Then a new project should be created
     And I should see /Geni/
+
+  Scenario: Browsers with HTML5 support
+    Given I am on the new projects page
+    Then I should see url field with type text
 
   Scenario: Update a project
     Given I have a project
@@ -57,5 +60,5 @@ Feature: Manage projects
     And I should receive a link for the feed of the project
     When I request '/projects.rss'
     Then I should see the name of the project
-    When I request '/projects/1.rss'
+    When I request '/projects/1.rss' for created project
     Then I should see the name of the project
