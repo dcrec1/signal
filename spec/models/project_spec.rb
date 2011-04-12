@@ -158,7 +158,7 @@ describe Project do
 
   context "on destroy" do
     it "should execute rm -rf" do
-      subject.should_receive(:execute).with("rm -rf /Users/ricardoalmeida/Documents/projects/gonow/signal/public/projects/")
+      subject.should_receive(:execute).with("rm -rf #{subject.send(:path)}")
       subject.destroy
     end
   end
