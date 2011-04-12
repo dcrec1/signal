@@ -46,6 +46,7 @@ describe Project do
       expect_for "cd #{subject.send :path} && rake inploy:local:setup >> #{subject.send :log_path} 2>&1"
       subject.save
     end
+
   end
 
   context "on #build" do
@@ -153,6 +154,13 @@ describe Project do
 
   it "should use master as the default branch" do
     subject.branch.should eql("master")
+  end
+
+  context "on destroy" do
+    it "should execute rm -rf" do
+      subject.should_receive(:execute).with("rm -rf /Users/ricardoalmeida/Documents/projects/gonow/signal/public/projects/")
+      subject.destroy
+    end
   end
 
   context "on has_file?" do
