@@ -36,7 +36,7 @@ body {
 
     a, a:active, a:visited {
       @include hover-link;
-      color: white !important;
+      color: white ;
     }
 
     header h1 {
@@ -50,7 +50,7 @@ body {
       font-size: 16px;
     }
 
-    div.project {
+    div.project, li.project {
       background-color: white;
       color: black;
 
@@ -65,6 +65,7 @@ body {
 
       .name {
         font-size: 30px;
+        color: inherit;
       }
 
       &.success, .build.success {
@@ -115,20 +116,24 @@ body {
     }
   }
 
-  .projects {
+  ul#projects {
     @include column($blueprint-grid-columns, true);
     @include border-radius;
-
+    padding-left: 0;
     .project {
-      @include clearfix;
-      border-bottom: 0px;
-      margin-bottom: 0px;
-      padding: 10px !important;
-      font-size: 30px;
-
+      display: block;
+      a{
+        display: block;
+        @include clearfix;
+        border-bottom: 0px;
+        margin-bottom: 0px;
+        padding: 10px !important;
+        font-size: 30px;
+      }
       .name {
         font-weight: 900;
         margin-right: 20px;
+        margin-bottom: 0;
       }
 
       .date {
