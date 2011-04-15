@@ -1,7 +1,7 @@
 - @projects.each do |project|
   = auto_discovery_link_tag :rss, project_path(project, :format => :rss), :title => project.name
 
-.projects= render :partial => "shared/projects"
+%ul#projects= render :partial => "shared/projects"
 
 = hidden_field_tag :status_path, status_projects_path
 
