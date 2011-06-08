@@ -29,6 +29,11 @@ describe Build do
       Build.create! :project => @project
     end
 
+    it "should build the project with a clean Bundler env" do
+      Bundler.should_receive(:with_clean_env).and_yield
+      Build.create! :project => @project
+    end
+
     it "should save the log" do
       log = "Can't touch this!"
       File.stub!(:open).with(@project.send :log_path).and_return(mock(Object, :read => log))

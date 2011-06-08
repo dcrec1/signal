@@ -63,9 +63,11 @@ class Project < ActiveRecord::Base
   end
 
   def run_build_command
-    run "rvm gemset use #{name} >>"
-    result = run "unset GEM_PATH && unset RUBYOPT && unset RAILS_ENV && unset BUNDLE_GEMFILE && #{build_command} >>"
-    return result, File.open(log_path).read
+    Bundler.with_clean_env do
+      run "rvm gemset use #{name} >>"
+      result = run "unset GEM_PATH && unset RUBYOPT && unset RAILS_ENV && unset BUNDLE_GEMFILE && #{build_command} >>"
+      return result, File.open(log_path).read
+    end
   end
 
   def run_deploy
